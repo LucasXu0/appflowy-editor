@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appflowy_editor/src/block/base_component/shortcuts/text_block_shortcut.dart';
 import 'package:appflowy_editor/src/service/shortcut_event/keybinding.dart';
 import 'package:appflowy_editor/src/service/shortcut_event/shortcut_event_handler.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +11,7 @@ class ShortcutEvent {
     required this.key,
     this.character,
     this.command,
+    this.blockShortcutHandler,
     required this.handler,
     String? windowsCommand,
     String? macOSCommand,
@@ -65,6 +67,7 @@ class ShortcutEvent {
   String? character;
 
   final ShortcutEventHandler handler;
+  final TextBlockShortcutHandler? blockShortcutHandler;
 
   List<Keybinding> get keybindings => _keybindings;
   List<Keybinding> _keybindings = [];
@@ -75,19 +78,10 @@ class ShortcutEvent {
     String? macOSCommand,
     String? linuxCommand,
   }) {
-    if (command == null &&
-        windowsCommand == null &&
-        macOSCommand == null &&
-        linuxCommand == null) {
-      return;
-    }
     var matched = false;
-    if (kIsWeb) {
-      // We shouldn't continue to run the below `else if` code in Web platform, it will throw an `_operatingSystem` exception.
-      if (command != null && command.isNotEmpty) {
-        this.command = command;
-        matched = true;
-      }
+    if (kIsWeb && command != null && command.isNotEmpty) {
+      this.command = command;
+      matched = true;
     } else if (Platform.isWindows &&
         windowsCommand != null &&
         windowsCommand.isNotEmpty) {

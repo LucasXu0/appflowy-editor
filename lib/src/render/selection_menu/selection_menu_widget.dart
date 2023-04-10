@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 typedef SelectionMenuItemHandler = void Function(
   EditorState editorState,
-  SelectionMenuService menuService,
+  SelectionMenuService? menuService,
   BuildContext context,
 );
 
@@ -146,7 +146,7 @@ class SelectionMenuWidget extends StatefulWidget {
   final List<SelectionMenuItem> items;
   final int maxItemInRow;
 
-  final SelectionMenuService menuService;
+  final SelectionMenuService? menuService;
   final EditorState editorState;
 
   final VoidCallback onSelectionUpdate;

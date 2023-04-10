@@ -49,3 +49,5 @@ export 'src/extensions/node_extensions.dart';
 export 'src/render/action_menu/action_menu.dart';
 export 'src/render/action_menu/action_menu_item.dart';
 export 'src/core/document/node_iterator.dart';
+export 'src/block/text_block/text_block.dart';
+export 'src/block/toolbar/floating_toolbar.dart';

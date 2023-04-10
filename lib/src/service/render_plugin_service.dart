@@ -1,8 +1,5 @@
-import 'package:appflowy_editor/src/core/document/node.dart';
-import 'package:appflowy_editor/src/editor_state.dart';
-import 'package:appflowy_editor/src/infra/log.dart';
-import 'package:appflowy_editor/src/render/action_menu/action_menu.dart';
-import 'package:appflowy_editor/src/render/action_menu/action_menu_item.dart';
+import 'package:appflowy_editor/appflowy_editor.dart';
+import 'package:appflowy_editor/src/render/selection/v2/selection_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +32,30 @@ abstract class AppFlowyRenderPluginService {
   NodeWidgetBuilder? getBuilder(String name);
 
   Widget buildPluginWidget(NodeWidgetContext context);
+
+  List<Widget> buildPluginWidgets(
+    BuildContext context,
+    List<Node> nodes,
+    EditorState editorState,
+  ) {
+    return nodes
+        .map(
+          (child) => buildPluginWidget(
+            child is TextNode
+                ? NodeWidgetContext<TextNode>(
+                    context: context,
+                    node: child,
+                    editorState: editorState,
+                  )
+                : NodeWidgetContext<Node>(
+                    context: context,
+                    node: child,
+                    editorState: editorState,
+                  ),
+          ),
+        )
+        .toList(growable: false);
+  }
 }
 
 class NodeWidgetContext<T extends Node> {
@@ -154,17 +175,27 @@ class AppFlowyRenderPlugin extends AppFlowyRenderPluginService {
 
   Widget _buildWithActions(
       NodeWidgetBuilder builder, NodeWidgetContext context) {
-    if (builder is ActionProvider && context.editorState.editable) {
+    final visibleNodes =
+        Provider.of<EditorState>(context.context, listen: false)
+            .service
+            .selectionServiceV2
+            .visibleNodes;
+    final child = SelectionWrapper(
+      onCreate: () => visibleNodes.add(context.node),
+      onDispose: () => visibleNodes.remove(context.node),
+      child: builder.build(context),
+    );
+    if (builder is ActionProvider) {
       return ChangeNotifierProvider(
         create: (_) => ActionMenuState(context.node.path),
         child: ActionMenuOverlay(
           items: builder.actions(context),
           customActionMenuBuilder: customActionMenuBuilder,
-          child: builder.build(context),
+          child: child,
         ),
       );
     } else {
-      return builder.build(context);
+      return child;
     }
   }
 

@@ -3,98 +3,209 @@
     "type": "editor",
     "children": [
       {
-        "type": "text",
+        "type": "paragraph",
         "attributes": {
-          "subtype": "heading",
-          "heading": "h2"
+          "texts": [
+            { "insert": "1. AppFlowy Editor is a" },
+            { "insert": " " },
+            { "insert": "highly customizable", "attributes": { "bold": true } },
+            { "insert": " " },
+            { "insert": "rich-text editor", "attributes": { "italic": true } },
+            { "insert": " for " },
+            { "insert": "Flutter", "attributes": { "underline": true } },
+            { "insert": "\n" },
+            { "insert": "2. AppFlowy Editor is a" },
+            { "insert": " " },
+            { "insert": "highly customizable", "attributes": { "bold": true } },
+            { "insert": " " },
+            { "insert": "rich-text editor", "attributes": { "italic": true } },
+            { "insert": " for " },
+            { "insert": "Flutter", "attributes": { "underline": true } }
+          ]
+        }
+      },
+      {
+        "type": "paragraph",
+        "attributes": {
+          "texts": [
+            { "insert": "" }
+          ]
+        }
+      },
+      {
+        "type": "quote",
+        "attributes": {
+          "texts": [
+            { "insert": "1. AppFlowy Editor is a" },
+            { "insert": " " },
+            { "insert": "highly customizable", "attributes": { "bold": true } },
+            { "insert": " " },
+            { "insert": "rich-text editor", "attributes": { "italic": true } },
+            { "insert": " for " },
+            { "insert": "Flutter", "attributes": { "underline": true } }
+          ]
+        }
+      },
+      {
+        "type": "paragraph",
+        "attributes": {
+          "texts": [
+            { "insert": "" }
+          ]
+        }
+      },
+      {
+        "type": "numbered_list",
+        "attributes": {
+          "texts": [
+            { "insert": "AppFlowy Editor is a" },
+            { "insert": " " },
+            { "insert": "highly customizable", "attributes": { "bold": true } },
+            { "insert": " " },
+            { "insert": "rich-text editor", "attributes": { "italic": true } },
+            { "insert": " for " },
+            { "insert": "Flutter", "attributes": { "underline": true } }
+          ]
         },
-        "delta": [
-          { "insert": "👋 " },
-          { "insert": "Welcome to", "attributes": { "bold": true } },
-          { "insert": " " },
+        "children": [
           {
-            "insert": "AppFlowy Editor",
+            "type": "paragraph",
             "attributes": {
-              "href": "appflowy.io",
-              "italic": true,
-              "bold": true
-            }
-          }
-        ]
-      },
-      { "type": "text", "delta": [] },
-      {
-        "type": "text",
-        "delta": [
-          { "insert": "AppFlowy Editor is a" },
-          { "insert": " " },
-          { "insert": "highly customizable", "attributes": { "bold": true } },
-          { "insert": " " },
-          { "insert": "rich-text editor", "attributes": { "italic": true } },
-          { "insert": " for " },
-          { "insert": "Flutter", "attributes": { "underline": true } }
-        ]
-      },
-      {
-        "type": "text",
-        "attributes": { "checkbox": true, "subtype": "checkbox" },
-        "delta": [{ "insert": "Customizable" }]
-      },
-      {
-        "type": "text",
-        "attributes": { "checkbox": true, "subtype": "checkbox" },
-        "delta": [{ "insert": "Test-covered" }]
-      },
-      {
-        "type": "text",
-        "attributes": { "checkbox": false, "subtype": "checkbox" },
-        "delta": [{ "insert": "more to come!" }]
-      },
-      { "type": "text", "delta": [] },
-      {
-        "type": "text",
-        "attributes": { "subtype": "quote" },
-        "delta": [{ "insert": "Here is an example you can give a try" }]
-      },
-      { "type": "text", "delta": [] },
-      {
-        "type": "text",
-        "delta": [
-          { "insert": "You can also use " },
-          {
-            "insert": "AppFlowy Editor",
-            "attributes": {
-              "italic": true,
-              "bold": true,
-              "backgroundColor": "0x6000BCF0"
+              "texts": [
+                { "insert": "bulleted list children 1" }
+              ]
             }
           },
-          { "insert": " as a component to build your own app." }
-        ]
-      },
-      { "type": "text", "delta": [] },
-      {
-        "type": "text",
-        "attributes": { "subtype": "bulleted-list" },
-        "delta": [{ "insert": "Use / to insert blocks" }]
-      },
-      {
-        "type": "text",
-        "attributes": { "subtype": "bulleted-list" },
-        "delta": [
           {
-            "insert": "Select text to trigger to the toolbar to format your notes."
+            "type": "paragraph",
+            "attributes": {
+              "texts": [
+                { "insert": "bulleted list children 2" }
+              ]
+            },
+            "children": [
+              {
+                "type": "paragraph",
+                "attributes": {
+                  "texts": [
+                    { "insert": "bulleted list children 3" }
+                  ]
+                }
+              },
+              {
+                "type": "paragraph",
+                "attributes": {
+                  "texts": [
+                    { "insert": "bulleted list children 4" }
+                  ]
+                },
+                "children": [
+
+                ]
+              }
+            ]
           }
         ]
       },
-      { "type": "text", "delta": [] },
       {
-        "type": "text",
-        "delta": [
+        "type": "paragraph",
+        "attributes": {
+          "texts": [
+            { "insert": "" }
+          ]
+        }
+      },
+      {
+        "type": "checkbox_list",
+        "attributes": {
+          "checked": true,
+          "texts": [
+            { "insert": "AppFlowy Editor is a" },
+            { "insert": " " },
+            { "insert": "highly customizable", "attributes": { "bold": true } },
+            { "insert": " " },
+            { "insert": "rich-text editor", "attributes": { "italic": true } },
+            { "insert": " for " },
+            { "insert": "Flutter", "attributes": { "underline": true } }
+          ]
+        },
+        "children": [
           {
-            "insert": "If you have questions or feedback, please submit an issue on Github or join the community along with 1000+ builders!"
+            "type": "paragraph",
+            "attributes": {
+              "texts": [
+                { "insert": "bulleted list children 1" }
+              ]
+            }
+          },
+          {
+            "type": "paragraph",
+            "attributes": {
+              "texts": [
+                { "insert": "bulleted list children 2" }
+              ]
+            }
           }
         ]
+      },
+      {
+        "type": "paragraph",
+        "attributes": {
+          "texts": [
+            { "insert": "" }
+          ]
+        }
+      },
+      {
+        "type": "bulleted_list",
+        "attributes": {
+          "texts": [
+            { "insert": "AppFlowy Editor is a" },
+            { "insert": " " },
+            { "insert": "highly customizable", "attributes": { "bold": true } },
+            { "insert": " " },
+            { "insert": "rich-text editor", "attributes": { "italic": true } },
+            { "insert": " for " },
+            { "insert": "Flutter", "attributes": { "underline": true } }
+          ]
+        },
+        "children": [
+          {
+            "type": "bulleted_list",
+            "attributes": {
+              "texts": [
+                { "insert": "bulleted list children 1" }
+              ]
+            },
+            "children": [
+              {
+                "type": "bulleted_list",
+                "attributes": {
+                  "texts": [
+                    { "insert": "bulleted list children 1" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "bulleted_list",
+            "attributes": {
+              "texts": [
+                { "insert": "bulleted list children 2" }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attributes": {
+          "heading": 1,
+          "texts": [
+            { "insert": "Heading 1" }
+          ]
+        }
       }
     ]
   }
