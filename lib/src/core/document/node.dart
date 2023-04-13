@@ -91,8 +91,8 @@ class Node extends ChangeNotifier with LinkedListEntry<Node> {
   }
 
   Delta? get delta {
-    if (attributes['texts'] is List) {
-      return Delta.fromJson(attributes['texts']);
+    if (attributes['delta'] is List) {
+      return Delta.fromJson(attributes['delta']);
     }
     return null;
   }

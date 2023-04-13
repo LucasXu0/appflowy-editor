@@ -32,7 +32,7 @@ class _HeadingBlockState extends State<HeadingBlock>
 
   @override
   Widget build(BuildContext context) {
-    final delta = Delta.fromJson(List.from(widget.node.attributes['texts']));
+    final delta = Delta.fromJson(List.from(widget.node.delta!));
     return TextBlock(
       key: textBlockKey,
       delta: delta,

@@ -13,7 +13,5 @@ class ParagraphBlockBuilder extends NodeWidgetBuilder<Node> {
   }
 
   @override
-  NodeValidator<Node> get nodeValidator => (node) {
-        return true;
-      };
+  NodeValidator<Node> get nodeValidator => (node) => node.delta != null;
 }

@@ -20,7 +20,7 @@ class _QuoteBlockState extends State<QuoteBlock>
     with TextBlockSelectableStateMixin<QuoteBlock> {
   @override
   Widget build(BuildContext context) {
-    final delta = Delta.fromJson(List.from(widget.node.attributes['texts']));
+    final delta = Delta.fromJson(List.from(widget.node.delta!));
     return IntrinsicHeight(
       child: TextBlockWithIcon(
         crossAxisAlignment: CrossAxisAlignment.stretch,
