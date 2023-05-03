@@ -8,11 +8,11 @@ class LinkMenu extends StatefulWidget {
     Key? key,
     this.linkText,
     this.editorState,
+    this.width = 350,
     required this.onSubmitted,
     required this.onOpenLink,
     required this.onCopyLink,
     required this.onRemoveLink,
-    required this.onFocusChange,
   }) : super(key: key);
 
   final String? linkText;
@@ -21,7 +21,7 @@ class LinkMenu extends StatefulWidget {
   final VoidCallback onOpenLink;
   final VoidCallback onCopyLink;
   final VoidCallback onRemoveLink;
-  final void Function(bool value) onFocusChange;
+  final double width;
 
   @override
   State<LinkMenu> createState() => _LinkMenuState();
@@ -38,20 +38,18 @@ class _LinkMenuState extends State<LinkMenu> {
     super.initState();
     _textEditingController.text = widget.linkText ?? '';
     _focusNode.requestFocus();
-    _focusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
     _textEditingController.dispose();
-    _focusNode.removeListener(_onFocusChange);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 350,
+      width: widget.width,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: style?.selectionMenuBackgroundColor ?? Colors.white,
@@ -174,9 +172,5 @@ class _LinkMenuState extends State<LinkMenu> {
       ),
       onPressed: onPressed,
     );
-  }
-
-  void _onFocusChange() {
-    widget.onFocusChange(_focusNode.hasFocus);
   }
 }
