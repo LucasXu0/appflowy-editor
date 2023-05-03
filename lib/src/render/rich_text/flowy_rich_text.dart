@@ -316,8 +316,7 @@ class _FlowyRichTextState extends State<FlowyRichText> with SelectableMixin {
           widget.editorState.service.selectionService
               .updateSelection(selection);
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            // showLinkMenu is updated and temple solution
-            showLinkMenu(context, widget.editorState, selection, false);
+            showLinkMenu(context, widget.editorState, selection, true);
           });
         });
       };
