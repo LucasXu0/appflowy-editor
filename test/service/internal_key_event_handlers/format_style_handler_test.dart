@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:appflowy_editor/appflowy_editor.dart';
-import 'package:appflowy_editor/src/render/link_menu/link_menu.dart';
+import 'package:appflowy_editor/src/editor/toolbar/items/link/link_menu.dart';
 import 'package:appflowy_editor/src/render/toolbar/toolbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
