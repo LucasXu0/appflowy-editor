@@ -33,7 +33,7 @@ void showColorMenu(
             style.popupMenuHoverColor ?? Colors.blue.withOpacity(0.3),
         pickerItemTextColor: style.selectionMenuItemTextColor ?? Colors.black,
         selectedColorHex: currentColorHex,
-        colorOptions: isTextColor!
+        colorOptions: isTextColor
             ? _generateTextColorOptions(editorState)
             : _generateHighlightColorOptions(editorState),
         onSubmittedColorHex: (color) {
@@ -48,6 +48,7 @@ void showColorMenu(
                 );
           dismissOverlay();
         },
+        onDismiss: dismissOverlay,
       );
     },
   ).build();
@@ -56,14 +57,7 @@ void showColorMenu(
 
 void _formatHighlightColor(EditorState editorState, String color) {
   final selection = editorState.selection!;
-  //Since there is no additional color for the text, remove the 'textColor' attribute, so that the textColor item on the toolbar won't be highlighted
-  //'0xff000000' is the deault color when developer doesn't set.
-  if (color == editorState.editorStyle.textStyle?.color?.toHex() ||
-      color == '0x6000BCF0') {
-    editorState.formatDelta(selection, {'highlightColor': null});
-  } else {
-    editorState.formatDelta(selection, {'highlightColor': color});
-  }
+  editorState.formatDelta(selection, {'highlightColor': color});
 }
 
 void _formatFontColor(EditorState editorState, String color) {
