@@ -121,21 +121,51 @@ class AppFlowyEditorLocalizations {
     );
   }
 
-  /// `Highlight`
-  String get highlight {
+  /// `Text Color`
+  String get textColor {
     return Intl.message(
-      'Highlight',
-      name: 'highlight',
+      'Text Color',
+      name: 'textColor',
       desc: '',
       args: [],
     );
   }
 
-  /// `Color`
-  String get color {
+  /// `Highlight Color`
+  String get highlightColor {
     return Intl.message(
-      'Color',
-      name: 'color',
+      'Highlight Color',
+      name: 'highlightColor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Custom Color`
+  String get customColor {
+    return Intl.message(
+      'Custom Color',
+      name: 'customColor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hex Value`
+  String get hexValue {
+    return Intl.message(
+      'Hex Value',
+      name: 'hexValue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Opacity`
+  String get opacity {
+    return Intl.message(
+      'Opacity',
+      name: 'opacity',
       desc: '',
       args: [],
     );

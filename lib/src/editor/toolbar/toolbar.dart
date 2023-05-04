@@ -11,5 +11,5 @@ export 'items/numbered_list_toolbar_item.dart';
 export 'items/quote_toolbar_item.dart';
 
 export 'items/link/link_toolbar_item.dart';
-export 'items/color/color_toolbar_item.dart';
+export 'items/color/color.dart';
 export 'items/highlight_toolbar_item.dart';

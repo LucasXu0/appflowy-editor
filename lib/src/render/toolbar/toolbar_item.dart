@@ -248,7 +248,7 @@ List<ToolbarItem> defaultToolbarItems = [
     id: 'appflowy.toolbar.highlight',
     type: 4,
     tooltipsMessage:
-        "${AppFlowyEditorLocalizations.current.highlight}${_shortcutTooltips("⌘ + SHIFT + H", "CTRL + SHIFT + H", "CTRL + SHIFT + H")}",
+        "${AppFlowyEditorLocalizations.current.highlightColor}${_shortcutTooltips("⌘ + SHIFT + H", "CTRL + SHIFT + H", "CTRL + SHIFT + H")}",
     iconBuilder: (isHighlight) => FlowySvg(
       name: 'toolbar/highlight',
       color: isHighlight ? Colors.lightBlue : null,
@@ -256,7 +256,7 @@ List<ToolbarItem> defaultToolbarItems = [
     validator: _showInBuiltInTextSelection,
     highlightCallback: (editorState) => _allSatisfy(
       editorState,
-      BuiltInAttributeKey.backgroundColor,
+      BuiltInAttributeKey.highlightColor,
       (value) {
         return value != null && value != '0x00000000'; // transparent color;
       },
