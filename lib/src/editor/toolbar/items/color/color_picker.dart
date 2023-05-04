@@ -1,3 +1,4 @@
+import 'package:appflowy_editor/src/editor/command/text_commands.dart';
 import 'package:appflowy_editor/src/editor_state.dart';
 import 'package:appflowy_editor/src/infra/flowy_svg.dart';
 import 'package:appflowy_editor/src/l10n/l10n.dart';
@@ -17,7 +18,7 @@ class ColorOption {
 class ColorPicker extends StatefulWidget {
   const ColorPicker({
     super.key,
-    this.editorState,
+    required this.editorState,
     required this.isTextColor,
     required this.selectedColorHex,
     required this.pickerBackgroundColor,
@@ -25,15 +26,17 @@ class ColorPicker extends StatefulWidget {
     required this.pickerItemTextColor,
     required this.onSubmittedColorHex,
     required this.colorOptions,
+    required this.onDismiss,
   });
 
   final bool isTextColor;
-  final EditorState? editorState;
+  final EditorState editorState;
   final String? selectedColorHex;
   final Color pickerBackgroundColor;
   final Color pickerItemHoverColor;
   final Color pickerItemTextColor;
   final void Function(String color) onSubmittedColorHex;
+  final Function() onDismiss;
 
   final List<ColorOption> colorOptions;
 
@@ -77,13 +80,20 @@ class _ColorPickerState extends State<ColorPicker> {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               widget.isTextColor
                   ? _buildHeader(AppFlowyEditorLocalizations.current.textColor)
                   : _buildHeader(
                       AppFlowyEditorLocalizations.current.highlightColor,
                     ),
+              const SizedBox(height: 6),
+              // if it is in hightlight color mode with a highlight color, show the clear highlight color button
+              widget.isTextColor == false && widget.selectedColorHex != null
+                  ? ClearHighlightColorButton(
+                      editorState: widget.editorState,
+                      dismissOverlay: widget.onDismiss,
+                    )
+                  : const SizedBox.shrink(),
               const SizedBox(height: 6),
               CustomColorItem(
                 colorController: _colorHexController,
@@ -102,10 +112,13 @@ class _ColorPickerState extends State<ColorPicker> {
   }
 
   Widget _buildHeader(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.only(left: 8),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -183,6 +196,54 @@ class _ColorPickerState extends State<ColorPicker> {
   }
 }
 
+class ClearHighlightColorButton extends StatelessWidget {
+  const ClearHighlightColorButton({
+    super.key,
+    required this.editorState,
+    required this.dismissOverlay,
+  });
+
+  final EditorState editorState;
+  final Function() dismissOverlay;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton.icon(
+        onPressed: () {
+          final selection = editorState.selection!;
+          editorState.formatDelta(selection, {'highlightColor': null});
+          dismissOverlay();
+        },
+        icon: const FlowySvg(
+          name: 'toolbar/clear_highlight_color',
+          width: 16,
+          height: 16,
+          color: Colors.grey,
+        ),
+        label: Text(
+          'Clear highlight color',
+          style: TextStyle(
+            color: Theme.of(context).hintColor,
+          ),
+        ),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
+                return Colors.grey.withOpacity(0.2);
+              }
+              return Colors.transparent;
+            },
+          ),
+          alignment: Alignment.centerLeft,
+        ),
+      ),
+    );
+  }
+}
+
 class CustomColorItem extends StatefulWidget {
   const CustomColorItem({
     super.key,
@@ -203,11 +264,11 @@ class _CustomColorItemState extends State<CustomColorItem> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      tilePadding: const EdgeInsets.only(left: 8),
       title: SizedBox(
         height: 36,
         child: Row(
           children: [
-            const SizedBox(width: 6),
             // color sample box
             SizedBox.square(
               dimension: 12,
@@ -245,8 +306,9 @@ class _CustomColorItemState extends State<CustomColorItem> {
         _customColorDetailsTextField(
           labelText: AppFlowyEditorLocalizations.current.hexValue,
           controller: widget.colorController,
-          onChanged: (p0) => setState(() {}),
-          onSubmitted: (p0) => setState(() {}),
+          // update the color sample box when the text changes
+          onChanged: (_) => setState(() {}),
+          onSubmitted: _submitCustomColorHex,
         ),
         const SizedBox(height: 6),
         _customColorDetailsTextField(
@@ -254,13 +316,7 @@ class _CustomColorItemState extends State<CustomColorItem> {
           controller: widget.opacityController,
           // update the color sample box when the text changes
           onChanged: (_) => setState(() {}),
-          onSubmitted: (value) {
-            final String color = _combineColorHexAndOpacity(
-              widget.colorController.text,
-              widget.opacityController.text,
-            );
-            widget.onSubmittedColorHex(color);
-          },
+          onSubmitted: _submitCustomColorHex,
         ),
       ],
     );
@@ -317,5 +373,13 @@ class _CustomColorItemState extends State<CustomColorItem> {
     } else {
       return '100';
     }
+  }
+
+  void _submitCustomColorHex(String value) {
+    final String color = _combineColorHexAndOpacity(
+      widget.colorController.text,
+      widget.opacityController.text,
+    );
+    widget.onSubmittedColorHex(color);
   }
 }
