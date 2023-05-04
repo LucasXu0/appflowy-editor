@@ -2,7 +2,7 @@
 /// Supported partial rendering types:
 ///   bold, italic,
 ///   underline, strikethrough,
-///   color, font,
+///   textColor, highlightColor,
 ///   href
 ///
 /// Supported global rendering types:
@@ -16,8 +16,8 @@ class BuiltInAttributeKey {
   static String italic = 'italic';
   static String underline = 'underline';
   static String strikethrough = 'strikethrough';
-  static String color = 'color';
-  static String backgroundColor = 'backgroundColor';
+  static String textColor = 'textColor';
+  static String highlightColor = 'highlightColor';
   static String code = 'code';
   static String href = 'href';
 
@@ -41,8 +41,8 @@ class BuiltInAttributeKey {
     BuiltInAttributeKey.italic,
     BuiltInAttributeKey.underline,
     BuiltInAttributeKey.strikethrough,
-    BuiltInAttributeKey.backgroundColor,
-    BuiltInAttributeKey.color,
+    BuiltInAttributeKey.highlightColor,
+    BuiltInAttributeKey.textColor,
     BuiltInAttributeKey.href,
     BuiltInAttributeKey.code,
   ];

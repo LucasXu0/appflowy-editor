@@ -57,7 +57,7 @@ void main() async {
     //   // FIXME: customize the highlight color instead of using magic number.
     //   await _testUpdateTextStyleByCommandX(
     //     tester,
-    //     BuiltInAttributeKey.backgroundColor,
+    //     BuiltInAttributeKey.highlightColor,
     //     '0x6000BCF0',
     //     LogicalKeyboardKey.keyH,
     //   );
