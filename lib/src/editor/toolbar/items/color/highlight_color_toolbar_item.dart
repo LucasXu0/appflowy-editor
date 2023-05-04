@@ -1,6 +1,5 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:appflowy_editor/src/editor/toolbar/items/utils/tooltip_util.dart';
-import 'package:appflowy_editor/src/editor/toolbar/items/icon_item_widget.dart';
 
 final highlightColorItem = ToolbarItem(
   id: 'editor.highlightColor',
@@ -21,7 +20,8 @@ final highlightColorItem = ToolbarItem(
     return IconItemWidget(
       iconName: 'toolbar/highlight_color',
       isHighlight: isHighlight,
-      tooltip: AppFlowyEditorLocalizations.current.highlightColor,
+      tooltip:
+          '${AppFlowyEditorLocalizations.current.highlightColor}${shortcutTooltips("⌘ + SHIFT + H", "CTRL + SHIFT + H", "CTRL + SHIFT + H")}',
       onPressed: () {
         showColorMenu(
           context,
