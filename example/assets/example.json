@@ -4,6 +4,41 @@
     "children": [{
         "type": "heading",
         "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "italic": true}},
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            }
+          ],
+          "level": 1
+        }
+      },
+      {
+        "type": "image",
+        "attributes": {
+          "url": "https://images.unsplash.com/photo-1682961941145-e73336a53bc6?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&dl=katsuma-tanaka-cWpkMDSQbWQ-unsplash.jpg",
+          "level": 1
+        }
+      },
+      {
+        "type": "paragraph",
+        "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "italic": true }   },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
           "level": 2,
           "delta": [{
               "insert": "👋 "
@@ -13,10 +48,249 @@
               "attributes": {
                 "bold": true
               }
-            },
+            }
+          ]
+        }
+      },
+      {
+        "type": "paragraph",
+        "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
             {
-              "insert": " "
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "todo_list",
+        "attributes": {
+          "checked": false,
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true, "textColor": "0xfff44336" }},
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "bulleted_list",
+        "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true,"highlightColor": "0xff8fce00" } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
             },
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            },
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            },
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            },
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "bulleted_list",
+        "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            }
+          ]
+        },
+        "children": [
+          {
+            "type": "bulleted_list",
+            "attributes": {
+              "delta": [
+                { "insert": "👋 " },
+                { "insert": "Welcome to", "attributes": { "bold": true } },
+                { "insert": " " },
+                {
+                  "insert": "AppFlowy Editor",
+                  "attributes": {
+                    "href": "appflowy.io",
+                    "italic": true,
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "type": "bulleted_list",
+                "attributes": {
+                  "delta": [
+                    { "insert": "👋 " },
+                    { "insert": "Welcome to", "attributes": { "bold": true } },
+                    { "insert": " " },
+                    {
+                      "insert": "AppFlowy Editor",
+                      "attributes": {
+                        "href": "appflowy.io",
+                        "italic": true,
+                        "bold": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "bulleted_list",
+                "attributes": {
+                  "delta": [
+                    { "insert": "👋 " },
+                    { "insert": "Welcome to", "attributes": { "bold": true } },
+                    { "insert": " " },
+                    {
+                      "insert": "AppFlowy Editor",
+                      "attributes": {
+                        "href": "appflowy.io",
+                        "italic": true,
+                        "bold": true
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      { "type": "paragraph", "attributes": { "delta": [] }},
+      {
+        "type": "numbered_list",
+        "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            }
+          ]
+        }
+      },
+      { "type": "paragraph", "attributes": { "delta": [] }},
+      {
+        "type": "numbered_list",
+        "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            }
+          ]
+        }
+      },
+      { "type": "paragraph", "attributes": { "delta": [] } },
+      {
+        "type": "quote",
+        "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": " " },
+            {
+              "insert": "AppFlowy Editor",
+              "attributes": {
+                "href": "appflowy.io",
+                "italic": true,
+                "bold": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "quote",
+        "attributes": {
+          "delta": [
+            { "insert": "👋 " },
+            { "insert": "Welcome to", "attributes": { "bold": true } },
+            { "insert": "\n " },
             {
               "insert": "AppFlowy Editor",
               "attributes": {
