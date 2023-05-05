@@ -1,5 +1,4 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
-import 'package:appflowy_editor/src/editor/block_component/base_component/widget/full_scrren_overlay_entry.dart';
 import 'package:flutter/material.dart';
 
 void showColorMenu(
@@ -20,8 +19,9 @@ void showColorMenu(
   }
 
   overlay = FullScreenOverlayEntry(
-    offset: Offset(rect.left + 10, rect.bottom + 5),
-    builder: (context, size) {
+    top: rect.bottom + 5,
+    left: rect.left + 10,
+    builder: (context) {
       return ColorPicker(
         isTextColor: isTextColor,
         editorState: editorState,

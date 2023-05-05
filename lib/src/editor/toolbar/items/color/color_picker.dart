@@ -2,7 +2,7 @@ import 'package:appflowy_editor/src/editor/command/text_commands.dart';
 import 'package:appflowy_editor/src/editor_state.dart';
 import 'package:appflowy_editor/src/infra/flowy_svg.dart';
 import 'package:appflowy_editor/src/l10n/l10n.dart';
-import 'package:appflowy_editor/src/render/style/editor_style.dart';
+import 'package:appflowy_editor/src/editor/toolbar/items/utils/overlay_util.dart';
 import 'package:flutter/material.dart';
 
 class ColorOption {
@@ -53,61 +53,43 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 250,
+    return Container(
+      width: 300,
       height: 250,
-      child: Material(
-        type: MaterialType.card,
-        borderRadius: BorderRadius.circular(4),
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-          child: ScrollConfiguration(
-            behavior:
-                ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  widget.isTextColor
-                      ? _buildHeader(
-                          AppFlowyEditorLocalizations.current.textColor)
-                      : _buildHeader(
-                          AppFlowyEditorLocalizations.current.highlightColor,
-                        ),
-                  const SizedBox(height: 6),
-                  // if it is in hightlight color mode with a highlight color, show the clear highlight color button
-                  widget.isTextColor == false && widget.selectedColorHex != null
-                      ? ClearHighlightColorButton(
-                          editorState: widget.editorState,
-                          dismissOverlay: widget.onDismiss,
-                        )
-                      : const SizedBox.shrink(),
-                  CustomColorItem(
-                    colorController: _colorHexController,
-                    opacityController: _colorOpacityController,
-                    onSubmittedColorHex: widget.onSubmittedColorHex,
-                  ),
-                  _buildColorItems(
-                    widget.colorOptions,
-                    widget.selectedColorHex,
-                  ),
-                ],
+      decoration: buildOverlayDecoration(context),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.isTextColor
+                  ? EditorOverlayTitle(
+                      text: AppFlowyEditorLocalizations.current.textColor,
+                    )
+                  : EditorOverlayTitle(
+                      text: AppFlowyEditorLocalizations.current.highlightColor,
+                    ),
+              const SizedBox(height: 6),
+              // if it is in hightlight color mode with a highlight color, show the clear highlight color button
+              widget.isTextColor == false && widget.selectedColorHex != null
+                  ? ClearHighlightColorButton(
+                      editorState: widget.editorState,
+                      dismissOverlay: widget.onDismiss,
+                    )
+                  : const SizedBox.shrink(),
+              CustomColorItem(
+                colorController: _colorHexController,
+                opacityController: _colorOpacityController,
+                onSubmittedColorHex: widget.onSubmittedColorHex,
               ),
-            ),
+              _buildColorItems(
+                widget.colorOptions,
+                widget.selectedColorHex,
+              ),
+            ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8),
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -142,16 +124,7 @@ class _ColorPickerState extends State<ColorPicker> {
             ),
           ),
         ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.hovered)) {
-                return Theme.of(context).hoverColor;
-              }
-              return Colors.transparent;
-            },
-          ),
-        ),
+        style: buildOverlayButtonStyle(context),
         label: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -215,7 +188,7 @@ class ClearHighlightColorButton extends StatelessWidget {
           color: Theme.of(context).iconTheme.color,
         ),
         label: Text(
-          'Clear highlight color',
+          AppFlowyEditorLocalizations.current.clearHighlightColor,
           style: TextStyle(
             color: Theme.of(context).hintColor,
           ),

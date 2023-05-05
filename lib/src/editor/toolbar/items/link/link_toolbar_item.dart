@@ -1,7 +1,6 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
-import 'package:appflowy_editor/src/editor/block_component/base_component/widget/full_scrren_overlay_entry.dart';
 import 'package:appflowy_editor/src/editor/toolbar/items/link/link_menu.dart';
-import 'package:appflowy_editor/src/editor/toolbar/items/tooltip_util.dart';
+import 'package:appflowy_editor/src/editor/toolbar/items/utils/tooltip_util.dart';
 import 'package:appflowy_editor/src/editor/toolbar/items/icon_item_widget.dart';
 import 'package:appflowy_editor/src/infra/clipboard.dart';
 import 'package:flutter/material.dart';
@@ -62,13 +61,10 @@ void showLinkMenu(
   }
 
   overlay = FullScreenOverlayEntry(
-    offset: Offset(
-      rect.left,
-      rect.bottom + 5.0,
-    ),
-    builder: (context, size) {
+    top: rect.bottom + 5,
+    left: rect.left + 10,
+    builder: (context) {
       return LinkMenu(
-        width: size.width * 0.5,
         linkText: linkText,
         editorState: editorState,
         onOpenLink: () async {
