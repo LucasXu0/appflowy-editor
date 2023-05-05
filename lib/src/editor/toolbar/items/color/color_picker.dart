@@ -21,9 +21,6 @@ class ColorPicker extends StatefulWidget {
     required this.editorState,
     required this.isTextColor,
     required this.selectedColorHex,
-    required this.pickerBackgroundColor,
-    required this.pickerItemHoverColor,
-    required this.pickerItemTextColor,
     required this.onSubmittedColorHex,
     required this.colorOptions,
     required this.onDismiss,
@@ -32,9 +29,6 @@ class ColorPicker extends StatefulWidget {
   final bool isTextColor;
   final EditorState editorState;
   final String? selectedColorHex;
-  final Color pickerBackgroundColor;
-  final Color pickerItemHoverColor;
-  final Color pickerItemTextColor;
   final void Function(String color) onSubmittedColorHex;
   final Function() onDismiss;
 
@@ -47,7 +41,6 @@ class ColorPicker extends StatefulWidget {
 class _ColorPickerState extends State<ColorPicker> {
   final TextEditingController _colorHexController = TextEditingController();
   final TextEditingController _colorOpacityController = TextEditingController();
-  EditorStyle? get style => widget.editorState?.editorStyle;
 
   @override
   void initState() {
@@ -60,51 +53,48 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: widget.pickerBackgroundColor,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 5,
-            spreadRadius: 1,
-            color: Colors.black.withOpacity(0.1),
-          ),
-        ],
-        borderRadius: BorderRadius.circular(6.0),
-      ),
+    return SizedBox(
+      width: 250,
       height: 250,
-      width: 220,
-      padding: const EdgeInsets.fromLTRB(10, 6, 10, 6),
-      child: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              widget.isTextColor
-                  ? _buildHeader(AppFlowyEditorLocalizations.current.textColor)
-                  : _buildHeader(
-                      AppFlowyEditorLocalizations.current.highlightColor,
-                    ),
-              const SizedBox(height: 6),
-              // if it is in hightlight color mode with a highlight color, show the clear highlight color button
-              widget.isTextColor == false && widget.selectedColorHex != null
-                  ? ClearHighlightColorButton(
-                      editorState: widget.editorState,
-                      dismissOverlay: widget.onDismiss,
-                    )
-                  : const SizedBox.shrink(),
-              const SizedBox(height: 6),
-              CustomColorItem(
-                colorController: _colorHexController,
-                opacityController: _colorOpacityController,
-                onSubmittedColorHex: widget.onSubmittedColorHex,
+      child: Material(
+        type: MaterialType.card,
+        borderRadius: BorderRadius.circular(4),
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+          child: ScrollConfiguration(
+            behavior:
+                ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  widget.isTextColor
+                      ? _buildHeader(
+                          AppFlowyEditorLocalizations.current.textColor)
+                      : _buildHeader(
+                          AppFlowyEditorLocalizations.current.highlightColor,
+                        ),
+                  const SizedBox(height: 6),
+                  // if it is in hightlight color mode with a highlight color, show the clear highlight color button
+                  widget.isTextColor == false && widget.selectedColorHex != null
+                      ? ClearHighlightColorButton(
+                          editorState: widget.editorState,
+                          dismissOverlay: widget.onDismiss,
+                        )
+                      : const SizedBox.shrink(),
+                  CustomColorItem(
+                    colorController: _colorHexController,
+                    opacityController: _colorOpacityController,
+                    onSubmittedColorHex: widget.onSubmittedColorHex,
+                  ),
+                  _buildColorItems(
+                    widget.colorOptions,
+                    widget.selectedColorHex,
+                  ),
+                ],
               ),
-              _buildColorItems(
-                widget.colorOptions,
-                widget.selectedColorHex,
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -156,7 +146,7 @@ class _ColorPickerState extends State<ColorPicker> {
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.hovered)) {
-                return style!.popupMenuHoverColor!;
+                return Theme.of(context).hoverColor;
               }
               return Colors.transparent;
             },
@@ -168,11 +158,12 @@ class _ColorPickerState extends State<ColorPicker> {
             Expanded(
               child: Text(
                 option.name,
-                style:
-                    TextStyle(fontSize: 12, color: widget.pickerItemTextColor),
                 softWrap: false,
                 maxLines: 1,
                 overflow: TextOverflow.fade,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.labelLarge?.color,
+                ),
               ),
             ),
             // checkbox
@@ -210,29 +201,31 @@ class ClearHighlightColorButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
+      height: 32,
       child: TextButton.icon(
         onPressed: () {
           final selection = editorState.selection!;
           editorState.formatDelta(selection, {'highlightColor': null});
           dismissOverlay();
         },
-        icon: const FlowySvg(
+        icon: FlowySvg(
           name: 'toolbar/clear_highlight_color',
-          width: 16,
-          height: 16,
-          color: Colors.grey,
+          width: 13,
+          height: 13,
+          color: Theme.of(context).iconTheme.color,
         ),
         label: Text(
           'Clear highlight color',
           style: TextStyle(
             color: Theme.of(context).hintColor,
           ),
+          textAlign: TextAlign.left,
         ),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.hovered)) {
-                return Colors.grey.withOpacity(0.2);
+                return Theme.of(context).hoverColor;
               }
               return Colors.transparent;
             },
@@ -265,41 +258,38 @@ class _CustomColorItemState extends State<CustomColorItem> {
   Widget build(BuildContext context) {
     return ExpansionTile(
       tilePadding: const EdgeInsets.only(left: 8),
-      title: SizedBox(
-        height: 36,
-        child: Row(
-          children: [
-            // color sample box
-            SizedBox.square(
-              dimension: 12,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(
-                    int.tryParse(
-                          _combineColorHexAndOpacity(
-                            widget.colorController.text,
-                            widget.opacityController.text,
-                          ),
-                        ) ??
-                        0xFFFFFFFF,
-                  ),
-                  shape: BoxShape.circle,
+      shape: Border.all(
+        color: Colors.transparent,
+      ), // remove the default border when it is expanded
+      title: Row(
+        children: [
+          // color sample box
+          SizedBox.square(
+            dimension: 12,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(
+                  int.tryParse(
+                        _combineColorHexAndOpacity(
+                          widget.colorController.text,
+                          widget.opacityController.text,
+                        ),
+                      ) ??
+                      0xFFFFFFFF,
                 ),
+                shape: BoxShape.circle,
               ),
             ),
-            const SizedBox(width: 6),
-            Expanded(
-              child: Text(
-                AppFlowyEditorLocalizations.current.customColor,
-                style: TextStyle(
-                  fontSize: 12,
-                  // TODO(yijing):refactor style
-                  // color: widget.pickerItemTextColor,
-                ),
-              ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              AppFlowyEditorLocalizations.current.customColor,
+              style: Theme.of(context).textTheme.labelLarge,
+              // same style as TextButton.icon
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       children: [
         const SizedBox(height: 6),
@@ -310,7 +300,7 @@ class _CustomColorItemState extends State<CustomColorItem> {
           onChanged: (_) => setState(() {}),
           onSubmitted: _submitCustomColorHex,
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 10),
         _customColorDetailsTextField(
           labelText: AppFlowyEditorLocalizations.current.opacity,
           controller: widget.opacityController,
@@ -318,6 +308,7 @@ class _CustomColorItemState extends State<CustomColorItem> {
           onChanged: (_) => setState(() {}),
           onSubmitted: _submitCustomColorHex,
         ),
+        const SizedBox(height: 6),
       ],
     );
   }
