@@ -12,8 +12,6 @@ void showColorMenu(
   // Since link format is only available for single line selection,
   // the first rect(also the only rect) is used as the starting reference point for the [overlay] position
   final rect = editorState.selectionRects.first;
-
-  EditorStyle style = editorState.editorStyle;
   OverlayEntry? overlay;
 
   void dismissOverlay() {
@@ -27,11 +25,6 @@ void showColorMenu(
       return ColorPicker(
         isTextColor: isTextColor,
         editorState: editorState,
-        pickerBackgroundColor:
-            style.selectionMenuBackgroundColor ?? Colors.white,
-        pickerItemHoverColor:
-            style.popupMenuHoverColor ?? Colors.blue.withOpacity(0.3),
-        pickerItemTextColor: style.selectionMenuItemTextColor ?? Colors.black,
         selectedColorHex: currentColorHex,
         colorOptions: isTextColor
             ? _generateTextColorOptions(editorState)
