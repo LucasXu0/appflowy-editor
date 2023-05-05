@@ -171,6 +171,16 @@ class AppFlowyEditorLocalizations {
     );
   }
 
+  /// `Clear highlight color'
+  String get clearHighlightColor {
+    return Intl.message(
+      'Clear highlight color',
+      name: 'clearHighlightColor',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Image`
   String get image {
     return Intl.message(
@@ -196,6 +206,46 @@ class AppFlowyEditorLocalizations {
     return Intl.message(
       'Link',
       name: 'link',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your link`
+  String get addYourLink {
+    return Intl.message(
+      'Add your link',
+      name: 'addYourLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open link`
+  String get openLink {
+    return Intl.message(
+      'Open link',
+      name: 'openLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy link`
+  String get copyLink {
+    return Intl.message(
+      'Copy link',
+      name: 'copyLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove link`
+  String get removeLink {
+    return Intl.message(
+      'Remove link',
+      name: 'removeLink',
       desc: '',
       args: [],
     );

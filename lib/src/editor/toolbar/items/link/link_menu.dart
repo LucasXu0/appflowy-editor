@@ -1,14 +1,14 @@
 import 'package:appflowy_editor/src/editor_state.dart';
 import 'package:appflowy_editor/src/infra/flowy_svg.dart';
-import 'package:appflowy_editor/src/render/style/editor_style.dart';
+import 'package:appflowy_editor/src/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:appflowy_editor/src/editor/toolbar/items/utils/overlay_util.dart';
 
 class LinkMenu extends StatefulWidget {
   const LinkMenu({
     Key? key,
     this.linkText,
     this.editorState,
-    this.width = 350,
     required this.onSubmitted,
     required this.onOpenLink,
     required this.onCopyLink,
@@ -21,7 +21,6 @@ class LinkMenu extends StatefulWidget {
   final VoidCallback onOpenLink;
   final VoidCallback onCopyLink;
   final VoidCallback onRemoveLink;
-  final double width;
 
   @override
   State<LinkMenu> createState() => _LinkMenuState();
@@ -30,8 +29,6 @@ class LinkMenu extends StatefulWidget {
 class _LinkMenuState extends State<LinkMenu> {
   final _textEditingController = TextEditingController();
   final _focusNode = FocusNode();
-
-  EditorStyle? get style => widget.editorState?.editorStyle;
 
   @override
   void initState() {
@@ -48,62 +45,37 @@ class _LinkMenuState extends State<LinkMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: style?.selectionMenuBackgroundColor ?? Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 5,
-              spreadRadius: 1,
-              color: Colors.black.withOpacity(0.1),
-            ),
-          ],
-          borderRadius: BorderRadius.circular(6.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 16.0),
-              _buildInput(),
-              const SizedBox(height: 16.0),
-              if (widget.linkText != null) ...[
-                _buildIconButton(
-                  iconName: 'link',
-                  color: style?.popupMenuFGColor,
-                  text: 'Open link',
-                  onPressed: widget.onOpenLink,
-                ),
-                _buildIconButton(
-                  iconName: 'copy',
-                  color: style?.popupMenuFGColor,
-                  text: 'Copy link',
-                  onPressed: widget.onCopyLink,
-                ),
-                _buildIconButton(
-                  iconName: 'delete',
-                  color: style?.popupMenuFGColor,
-                  text: 'Remove link',
-                  onPressed: widget.onRemoveLink,
-                ),
-              ]
-            ],
+    return Container(
+      width: 300,
+      decoration: buildOverlayDecoration(context),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          EditorOverlayTitle(
+            text: AppFlowyEditorLocalizations.current.addYourLink,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Text(
-      'Add your link',
-      style: TextStyle(
-        fontSize: style?.textStyle?.fontSize,
+          const SizedBox(height: 16.0),
+          _buildInput(),
+          const SizedBox(height: 16.0),
+          if (widget.linkText != null) ...[
+            _buildIconButton(
+              iconName: 'link',
+              text: AppFlowyEditorLocalizations.current.openLink,
+              onPressed: widget.onOpenLink,
+            ),
+            _buildIconButton(
+              iconName: 'copy',
+              text: AppFlowyEditorLocalizations.current.copyLink,
+              onPressed: widget.onCopyLink,
+            ),
+            _buildIconButton(
+              iconName: 'delete',
+              text: AppFlowyEditorLocalizations.current.removeLink,
+              onPressed: widget.onRemoveLink,
+            ),
+          ]
+        ],
       ),
     );
   }
@@ -111,17 +83,11 @@ class _LinkMenuState extends State<LinkMenu> {
   Widget _buildInput() {
     return TextField(
       focusNode: _focusNode,
-      style: TextStyle(
-        fontSize: style?.textStyle?.fontSize,
-      ),
       textAlign: TextAlign.left,
       controller: _textEditingController,
       onSubmitted: widget.onSubmitted,
       decoration: InputDecoration(
         hintText: 'URL',
-        hintStyle: TextStyle(
-          fontSize: style?.textStyle?.fontSize,
-        ),
         contentPadding: const EdgeInsets.all(16.0),
         isDense: true,
         suffixIcon: IconButton(
@@ -132,10 +98,10 @@ class _LinkMenuState extends State<LinkMenu> {
             height: 24,
           ),
           onPressed: _textEditingController.clear,
+          splashRadius: 5,
         ),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(12.0)),
-          borderSide: BorderSide(color: Color(0xFFBDBDBD)),
         ),
       ),
     );
@@ -143,34 +109,30 @@ class _LinkMenuState extends State<LinkMenu> {
 
   Widget _buildIconButton({
     required String iconName,
-    Color? color,
     required String text,
     required VoidCallback onPressed,
   }) {
-    return TextButton.icon(
-      icon: FlowySvg(
-        name: iconName,
-        color: color,
-      ),
-      label: Text(
-        text,
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          color: color,
-          fontSize: 14.0,
+    return SizedBox(
+      height: 36,
+      child: TextButton.icon(
+        icon: FlowySvg(
+          name: iconName,
+          color: Theme.of(context).textTheme.labelLarge?.color,
         ),
-      ),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.hovered)) {
-              return style!.popupMenuHoverColor!;
-            }
-            return Colors.transparent;
-          },
+        label: Row(
+          // This row is used to align the text to the left
+          children: [
+            Text(
+              text,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.labelLarge?.color,
+              ),
+            ),
+          ],
         ),
+        style: buildOverlayButtonStyle(context),
+        onPressed: onPressed,
       ),
-      onPressed: onPressed,
     );
   }
 }

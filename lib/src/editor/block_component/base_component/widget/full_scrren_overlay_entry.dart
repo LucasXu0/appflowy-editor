@@ -40,6 +40,7 @@ class FullScreenOverlayEntry {
                   left: offset.dx,
                   child: IgnoreParentPointer(
                     child: Material(
+                      color: Colors.transparent,
                       child: builder(context, size),
                     ),
                   ),
