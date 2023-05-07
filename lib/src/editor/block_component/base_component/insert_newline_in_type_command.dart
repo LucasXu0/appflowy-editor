@@ -21,7 +21,7 @@ Future<bool> insertNewLineInType(
     // clear the style
 
     return KeyEventResult.ignored !=
-        convertToParagraphCommand.execute(editorState);
+        convertToParagraphCommand.execute(editorState, null);
   }
 
   await editorState.insertNewLine(

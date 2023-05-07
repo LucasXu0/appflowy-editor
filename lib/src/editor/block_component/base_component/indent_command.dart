@@ -20,7 +20,7 @@ final CommandShortcutEvent indentCommand = CommandShortcutEvent(
   handler: _indentCommandHandler,
 );
 
-CommandShortcutEventHandler _indentCommandHandler = (editorState) {
+CommandShortcutEventHandler _indentCommandHandler = (editorState, _) {
   final selection = editorState.selection;
   if (selection == null || !selection.isCollapsed) {
     return KeyEventResult.ignored;

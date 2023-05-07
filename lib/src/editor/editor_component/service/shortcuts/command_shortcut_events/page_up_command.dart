@@ -13,7 +13,7 @@ final CommandShortcutEvent pageUpCommand = CommandShortcutEvent(
   handler: _pageUpCommandHandler,
 );
 
-CommandShortcutEventHandler _pageUpCommandHandler = (editorState) {
+CommandShortcutEventHandler _pageUpCommandHandler = (editorState, _) {
   if (PlatformExtension.isMobile) {
     assert(false, 'pageUpCommand is not supported on mobile platform.');
     return KeyEventResult.ignored;

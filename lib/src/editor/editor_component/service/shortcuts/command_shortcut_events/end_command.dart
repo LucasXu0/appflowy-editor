@@ -13,7 +13,7 @@ final CommandShortcutEvent endCommand = CommandShortcutEvent(
   handler: _endCommandHandler,
 );
 
-CommandShortcutEventHandler _endCommandHandler = (editorState) {
+CommandShortcutEventHandler _endCommandHandler = (editorState, _) {
   if (PlatformExtension.isMobile) {
     assert(false, 'endCommand is not supported on mobile platform.');
     return KeyEventResult.ignored;
