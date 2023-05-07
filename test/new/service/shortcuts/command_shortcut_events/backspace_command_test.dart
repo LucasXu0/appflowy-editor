@@ -42,7 +42,7 @@ void main() async {
         );
         editorState.selection = selection;
         for (var i = 0; i < index; i++) {
-          final result = backspaceCommand.execute(editorState);
+          final result = backspaceCommand.execute(editorState, null);
           expect(result, KeyEventResult.handled);
         }
 
@@ -68,7 +68,7 @@ void main() async {
         );
         editorState.selection = selection;
 
-        final result = backspaceCommand.execute(editorState);
+        final result = backspaceCommand.execute(editorState, null);
         expect(result, KeyEventResult.ignored);
 
         final after = editorState.getNodeAtPath([0])!;
@@ -98,7 +98,7 @@ void main() async {
         );
         editorState.selection = selection;
 
-        final result = backspaceCommand.execute(editorState);
+        final result = backspaceCommand.execute(editorState, null);
         expect(result, KeyEventResult.handled);
 
         // the second node should be deleted.
@@ -139,7 +139,7 @@ void main() async {
         );
         editorState.selection = selection;
 
-        final result = backspaceCommand.execute(editorState);
+        final result = backspaceCommand.execute(editorState, null);
         expect(result, KeyEventResult.handled);
 
         // the second node should be moved to the same level as it's parent.
@@ -177,7 +177,7 @@ void main() async {
         );
         editorState.selection = selection;
 
-        final result = backspaceCommand.execute(editorState);
+        final result = backspaceCommand.execute(editorState, null);
         expect(result, KeyEventResult.handled);
 
         final after = editorState.getNodeAtPath([0])!;
@@ -213,7 +213,7 @@ void main() async {
         );
         editorState.selection = selection;
 
-        final result = backspaceCommand.execute(editorState);
+        final result = backspaceCommand.execute(editorState, null);
         expect(result, KeyEventResult.handled);
 
         final after = editorState.getNodeAtPath([0])!;
@@ -260,7 +260,7 @@ void main() async {
         );
         editorState.selection = selection;
 
-        final result = backspaceCommand.execute(editorState);
+        final result = backspaceCommand.execute(editorState, null);
         expect(result, KeyEventResult.handled);
 
         // Welcome| to AppFlowy Editor 🔥!

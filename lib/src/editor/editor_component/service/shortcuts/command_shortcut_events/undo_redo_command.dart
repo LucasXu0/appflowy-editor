@@ -14,7 +14,7 @@ final CommandShortcutEvent undoCommand = CommandShortcutEvent(
   handler: _undoCommandHandler,
 );
 
-CommandShortcutEventHandler _undoCommandHandler = (editorState) {
+CommandShortcutEventHandler _undoCommandHandler = (editorState, _) {
   if (PlatformExtension.isMobile) {
     assert(false, 'undoCommand is not supported on mobile platform.');
     return KeyEventResult.ignored;
@@ -36,7 +36,7 @@ final CommandShortcutEvent redoCommand = CommandShortcutEvent(
   handler: _redoCommandHandler,
 );
 
-CommandShortcutEventHandler _redoCommandHandler = (editorState) {
+CommandShortcutEventHandler _redoCommandHandler = (editorState, _) {
   if (PlatformExtension.isMobile) {
     assert(false, 'redoCommand is not supported on mobile platform.');
     return KeyEventResult.ignored;

@@ -27,7 +27,7 @@ final CommandShortcutEvent deleteLeftSentenceCommand = CommandShortcutEvent(
   handler: _deleteLeftSentenceCommandHandler,
 );
 
-CommandShortcutEventHandler _deleteLeftWordCommandHandler = (editorState) {
+CommandShortcutEventHandler _deleteLeftWordCommandHandler = (editorState, _) {
   final selection = editorState.selection;
   if (selection == null || !selection.isSingle) {
     return KeyEventResult.ignored;
@@ -88,7 +88,8 @@ CommandShortcutEventHandler _deleteLeftWordCommandHandler = (editorState) {
   return KeyEventResult.handled;
 };
 
-CommandShortcutEventHandler _deleteLeftSentenceCommandHandler = (editorState) {
+CommandShortcutEventHandler _deleteLeftSentenceCommandHandler =
+    (editorState, _) {
   final selection = editorState.selection;
   if (selection == null || !selection.isCollapsed) {
     return KeyEventResult.ignored;
@@ -110,7 +111,7 @@ CommandShortcutEventHandler _deleteLeftSentenceCommandHandler = (editorState) {
   return KeyEventResult.handled;
 };
 
-CommandShortcutEventHandler _backspaceCommandHandler = (editorState) {
+CommandShortcutEventHandler _backspaceCommandHandler = (editorState, _) {
   if (PlatformExtension.isMobile) {
     assert(false, 'backspaceCommand is not supported on mobile platform.');
     return KeyEventResult.ignored;
@@ -120,14 +121,14 @@ CommandShortcutEventHandler _backspaceCommandHandler = (editorState) {
     return KeyEventResult.ignored;
   }
   if (selection.isCollapsed) {
-    return _backspaceInCollapsedSelection(editorState);
+    return _backspaceInCollapsedSelection(editorState, _);
   } else {
-    return _backspaceInNotCollapsedSelection(editorState);
+    return _backspaceInNotCollapsedSelection(editorState, _);
   }
 };
 
 /// Handle backspace key event when selection is collapsed.
-CommandShortcutEventHandler _backspaceInCollapsedSelection = (editorState) {
+CommandShortcutEventHandler _backspaceInCollapsedSelection = (editorState, _) {
   final selection = editorState.selection;
   if (selection == null || !selection.isCollapsed) {
     return KeyEventResult.ignored;
@@ -201,7 +202,8 @@ CommandShortcutEventHandler _backspaceInCollapsedSelection = (editorState) {
 };
 
 /// Handle backspace key event when selection is not collapsed.
-CommandShortcutEventHandler _backspaceInNotCollapsedSelection = (editorState) {
+CommandShortcutEventHandler _backspaceInNotCollapsedSelection =
+    (editorState, _) {
   final selection = editorState.selection;
   if (selection == null || selection.isCollapsed) {
     return KeyEventResult.ignored;

@@ -25,7 +25,7 @@ final CommandShortcutEvent moveCursorLeftCommand = CommandShortcutEvent(
   handler: _arrowLeftCommandHandler,
 );
 
-CommandShortcutEventHandler _arrowLeftCommandHandler = (editorState) {
+CommandShortcutEventHandler _arrowLeftCommandHandler = (editorState, _) {
   if (PlatformExtension.isMobile) {
     assert(false, 'arrow left key is not supported on mobile platform.');
     return KeyEventResult.ignored;
@@ -43,7 +43,8 @@ final CommandShortcutEvent moveCursorToBeginCommand = CommandShortcutEvent(
   handler: _moveCursorToBeginCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorToBeginCommandHandler = (editorState) {
+CommandShortcutEventHandler _moveCursorToBeginCommandHandler =
+    (editorState, _) {
   if (PlatformExtension.isMobile) {
     assert(false, 'arrow left key is not supported on mobile platform.');
     return KeyEventResult.ignored;
@@ -61,7 +62,7 @@ final CommandShortcutEvent moveCursorToLeftWordCommand = CommandShortcutEvent(
 );
 
 CommandShortcutEventHandler _moveCursorToLeftWordCommandHandler =
-    (editorState) {
+    (editorState, _) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -79,7 +80,7 @@ final CommandShortcutEvent moveCursorLeftWordSelectCommand =
 );
 
 CommandShortcutEventHandler _moveCursorLeftWordSelectCommandHandler =
-    (editorState) {
+    (editorState, _) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -107,7 +108,7 @@ final CommandShortcutEvent moveCursorLeftSelectCommand = CommandShortcutEvent(
 );
 
 CommandShortcutEventHandler _moveCursorLeftSelectCommandHandler =
-    (editorState) {
+    (editorState, _) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -132,7 +133,7 @@ final CommandShortcutEvent moveCursorBeginSelectCommand = CommandShortcutEvent(
 );
 
 CommandShortcutEventHandler _moveCursorBeginSelectCommandHandler =
-    (editorState) {
+    (editorState, _) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
