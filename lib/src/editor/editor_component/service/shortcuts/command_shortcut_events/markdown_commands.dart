@@ -8,6 +8,8 @@ final List<CommandShortcutEvent> toggleMarkdownCommands = [
   toggleStrikethroughCommand,
   toggleCodeCommand,
   showLinkMenuCommand,
+  showTextColorMenuCommand,
+  showHighlightColorMenuCommand
 ];
 
 /// Markdown key event.
@@ -16,10 +18,10 @@ final List<CommandShortcutEvent> toggleMarkdownCommands = [
 /// Cmd / Ctrl + I: toggle italic
 /// Cmd / Ctrl + U: toggle underline
 /// Cmd / Ctrl + Shift + S: toggle strikethrough
-/// Cmd / Ctrl + Shift + H: toggle highlight
 /// Cmd / Ctrl + E: code
 /// Cmd / Ctrl + K: show link menu
-///
+/// Cmd / Ctrl + Shift + T: show text color menu
+/// Cmd / Ctrl + Shift + H: show highlight color menu
 /// - support
 ///   - desktop
 ///   - web
@@ -66,6 +68,40 @@ final CommandShortcutEvent showLinkMenuCommand = CommandShortcutEvent(
   handler: (editorState, context) => _showLinkMenu(editorState, context),
 );
 
+final CommandShortcutEvent showTextColorMenuCommand = CommandShortcutEvent(
+  key: 'text color menu',
+  command: 'ctrl+shift+t',
+  macOSCommand: 'cmd+shift+t',
+  handler: (editorState, context) => _showTextColorMenu(editorState, context),
+);
+
+final CommandShortcutEvent showHighlightColorMenuCommand = CommandShortcutEvent(
+  key: 'highlight color menu',
+  command: 'ctrl+shift+h',
+  macOSCommand: 'cmd+shift+h',
+  handler: (editorState, context) =>
+      _showHighlightColorMenu(editorState, context),
+);
+
+KeyEventResult _toggleAttribute(
+  EditorState editorState,
+  String key,
+) {
+  if (PlatformExtension.isMobile) {
+    assert(false, 'homeCommand is not supported on mobile platform.');
+    return KeyEventResult.ignored;
+  }
+
+  final selection = editorState.selection;
+  if (selection == null) {
+    return KeyEventResult.ignored;
+  }
+
+  editorState.toggleAttribute(key);
+
+  return KeyEventResult.handled;
+}
+
 KeyEventResult _showLinkMenu(
   EditorState editorState,
   BuildContext? context,
@@ -96,9 +132,9 @@ KeyEventResult _showLinkMenu(
   return KeyEventResult.handled;
 }
 
-KeyEventResult _toggleAttribute(
+KeyEventResult _showTextColorMenu(
   EditorState editorState,
-  String key,
+  BuildContext? context,
 ) {
   if (PlatformExtension.isMobile) {
     assert(false, 'homeCommand is not supported on mobile platform.');
@@ -106,11 +142,50 @@ KeyEventResult _toggleAttribute(
   }
 
   final selection = editorState.selection;
-  if (selection == null) {
+  if (selection == null || selection.isCollapsed || context == null) {
     return KeyEventResult.ignored;
   }
 
-  editorState.toggleAttribute(key);
+  String? textColorHex = editorState.getDeltaAttributeValueInSelection(
+    BuiltInAttributeKey.textColor,
+    selection,
+  );
 
+  showColorMenu(
+    context,
+    editorState,
+    selection,
+    currentColorHex: textColorHex,
+    isTextColor: true,
+  );
+  return KeyEventResult.handled;
+}
+
+KeyEventResult _showHighlightColorMenu(
+  EditorState editorState,
+  BuildContext? context,
+) {
+  if (PlatformExtension.isMobile) {
+    assert(false, 'homeCommand is not supported on mobile platform.');
+    return KeyEventResult.ignored;
+  }
+
+  final selection = editorState.selection;
+  if (selection == null || selection.isCollapsed || context == null) {
+    return KeyEventResult.ignored;
+  }
+
+  String? highlightColorHex = editorState.getDeltaAttributeValueInSelection(
+    BuiltInAttributeKey.highlightColor,
+    selection,
+  );
+
+  showColorMenu(
+    context,
+    editorState,
+    selection,
+    currentColorHex: highlightColorHex,
+    isTextColor: false,
+  );
   return KeyEventResult.handled;
 }
