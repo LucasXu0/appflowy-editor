@@ -22,7 +22,7 @@ final highlightColorItem = ToolbarItem(
       iconName: 'toolbar/highlight_color',
       isHighlight: isHighlight,
       tooltip:
-          '${AppFlowyEditorLocalizations.current.highlightColor}${shortcutTooltips("⌘ + SHIFT + J", "CTRL + SHIFT + J", "CTRL + SHIFT + J")}',
+          '${AppFlowyEditorLocalizations.current.highlightColor}${shortcutTooltips("⌘ + SHIFT + H", "CTRL + SHIFT + H", "CTRL + SHIFT + H")}',
       onPressed: () {
         showColorMenu(
           context,
