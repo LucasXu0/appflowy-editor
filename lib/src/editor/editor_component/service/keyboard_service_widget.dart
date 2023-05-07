@@ -127,7 +127,7 @@ class KeyboardServiceWidgetState extends State<KeyboardServiceWidget>
     for (final shortcutEvent in widget.commandShortcutEvents) {
       // check if the shortcut event can respond to the raw key event
       if (shortcutEvent.canRespondToRawKeyEvent(event)) {
-        final result = shortcutEvent.handler(editorState);
+        final result = shortcutEvent.handler(editorState, context);
         if (result == KeyEventResult.handled) {
           Log.keyboard.debug(
             'keyboard service - handled by command shortcut event: $shortcutEvent',

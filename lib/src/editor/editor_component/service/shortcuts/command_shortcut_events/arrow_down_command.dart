@@ -24,7 +24,7 @@ final CommandShortcutEvent moveCursorDownCommand = CommandShortcutEvent(
   handler: _moveCursorDownCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorDownCommandHandler = (editorState) {
+CommandShortcutEventHandler _moveCursorDownCommandHandler = (editorState, _) {
   if (PlatformExtension.isMobile) {
     assert(false, 'arrow down key is not supported on mobile platform.');
     return KeyEventResult.ignored;
@@ -54,7 +54,7 @@ CommandShortcutEvent moveCursorBottomSelectCommand = CommandShortcutEvent(
 );
 
 CommandShortcutEventHandler _moveCursorBottomSelectCommandHandler =
-    (editorState) {
+    (editorState, _) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -82,7 +82,7 @@ CommandShortcutEvent moveCursorBottomCommand = CommandShortcutEvent(
   handler: _moveCursorBottomCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorBottomCommandHandler = (editorState) {
+CommandShortcutEventHandler _moveCursorBottomCommandHandler = (editorState, _) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -110,7 +110,7 @@ CommandShortcutEvent moveCursorDownSelectCommand = CommandShortcutEvent(
 );
 
 CommandShortcutEventHandler _moveCursorDownSelectCommandHandler =
-    (editorState) {
+    (editorState, _) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;

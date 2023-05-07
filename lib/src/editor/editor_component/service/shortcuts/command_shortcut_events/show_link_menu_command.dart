@@ -9,7 +9,7 @@ final CommandShortcutEvent showLinkMenuCommand = CommandShortcutEvent(
   key: 'link menu',
   command: 'ctrl+k',
   macOSCommand: 'cmd+k',
-  handler: (editorState) => _showLinkMenu(editorState),
+  handler: (editorState, context) => _showLinkMenu(editorState),
 );
 
 KeyEventResult _showLinkMenu(
