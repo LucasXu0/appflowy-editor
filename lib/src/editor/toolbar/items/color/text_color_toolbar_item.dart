@@ -21,8 +21,7 @@ final textColorItem = ToolbarItem(
     return IconItemWidget(
       iconName: 'toolbar/text_color',
       isHighlight: isHighlight,
-      tooltip:
-          '${AppFlowyEditorLocalizations.current.textColor}${shortcutTooltips("⌘ + SHIFT + T", "CTRL + SHIFT + T", "CTRL + SHIFT + T")}',
+      tooltip: AppFlowyEditorLocalizations.current.textColor,
       onPressed: () {
         showColorMenu(
           context,
