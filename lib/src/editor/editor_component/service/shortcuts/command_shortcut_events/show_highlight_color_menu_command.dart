@@ -1,18 +1,19 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
 
-/// Cmd / Ctrl + K: show link menu
+/// Cmd / Ctrl + Shift + H: show highlight color menu
 /// - support
 ///   - desktop
 ///   - web
-final CommandShortcutEvent showLinkMenuCommand = CommandShortcutEvent(
-  key: 'link menu',
-  command: 'ctrl+k',
-  macOSCommand: 'cmd+k',
-  handler: (editorState, context) => _showLinkMenu(editorState, context),
+final CommandShortcutEvent showHighlightColorMenuCommand = CommandShortcutEvent(
+  key: 'highlight color menu',
+  command: 'ctrl+shift+h',
+  macOSCommand: 'cmd+shift+h',
+  handler: (editorState, context) =>
+      _showHighlightColorMenu(editorState, context),
 );
 
-KeyEventResult _showLinkMenu(
+KeyEventResult _showHighlightColorMenu(
   EditorState editorState,
   BuildContext? context,
 ) {
@@ -25,19 +26,18 @@ KeyEventResult _showLinkMenu(
   if (selection == null || selection.isCollapsed || context == null) {
     return KeyEventResult.ignored;
   }
-  final nodes = editorState.getNodesInSelection(selection);
-  final isHref = nodes.allSatisfyInSelection(selection, (delta) {
-    return delta.everyAttributes(
-      (attributes) => attributes['href'] != null,
-    );
-  });
 
-  showLinkMenu(
+  String? highlightColorHex = editorState.getDeltaAttributeValueInSelection(
+    BuiltInAttributeKey.highlightColor,
+    selection,
+  );
+
+  showColorMenu(
     context,
     editorState,
     selection,
-    isHref,
+    currentColorHex: highlightColorHex,
+    isTextColor: false,
   );
-
   return KeyEventResult.handled;
 }

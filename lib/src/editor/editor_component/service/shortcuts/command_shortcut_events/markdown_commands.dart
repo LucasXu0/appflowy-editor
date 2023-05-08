@@ -7,7 +7,6 @@ final List<CommandShortcutEvent> toggleMarkdownCommands = [
   toggleUnderlineCommand,
   toggleStrikethroughCommand,
   toggleCodeCommand,
-  showLinkMenuCommand,
 ];
 
 /// Markdown key event.
@@ -18,8 +17,6 @@ final List<CommandShortcutEvent> toggleMarkdownCommands = [
 /// Cmd / Ctrl + Shift + S: toggle strikethrough
 /// Cmd / Ctrl + Shift + H: toggle highlight
 /// Cmd / Ctrl + E: code
-/// Cmd / Ctrl + K: show link menu
-///
 /// - support
 ///   - desktop
 ///   - web
@@ -58,43 +55,6 @@ final CommandShortcutEvent toggleCodeCommand = CommandShortcutEvent(
   macOSCommand: 'cmd+e',
   handler: (editorState, _) => _toggleAttribute(editorState, 'code'),
 );
-
-final CommandShortcutEvent showLinkMenuCommand = CommandShortcutEvent(
-  key: 'link menu',
-  command: 'ctrl+k',
-  macOSCommand: 'cmd+k',
-  handler: (editorState, context) => _showLinkMenu(editorState, context),
-);
-
-KeyEventResult _showLinkMenu(
-  EditorState editorState,
-  BuildContext? context,
-) {
-  if (PlatformExtension.isMobile) {
-    assert(false, 'homeCommand is not supported on mobile platform.');
-    return KeyEventResult.ignored;
-  }
-
-  final selection = editorState.selection;
-  if (selection == null || selection.isCollapsed || context == null) {
-    return KeyEventResult.ignored;
-  }
-  final nodes = editorState.getNodesInSelection(selection);
-  final isHref = nodes.allSatisfyInSelection(selection, (delta) {
-    return delta.everyAttributes(
-      (attributes) => attributes['href'] != null,
-    );
-  });
-
-  showLinkMenu(
-    context,
-    editorState,
-    selection,
-    isHref,
-  );
-
-  return KeyEventResult.handled;
-}
 
 KeyEventResult _toggleAttribute(
   EditorState editorState,
