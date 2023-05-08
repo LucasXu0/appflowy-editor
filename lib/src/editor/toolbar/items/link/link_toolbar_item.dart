@@ -21,7 +21,7 @@ final linkItem = ToolbarItem(
     return IconItemWidget(
       iconName: 'toolbar/link',
       isHighlight: isHref,
-      tooltip: '${AppFlowyEditorLocalizations.current.link}}',
+      tooltip: AppFlowyEditorLocalizations.current.link,
       onPressed: () {
         showLinkMenu(context, editorState, selection, isHref);
       },
