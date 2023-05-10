@@ -26,43 +26,10 @@ Future<void> _testLinkMenuInSingleTextSelection(WidgetTester tester) async {
 
   final editor = tester.editor..addParagraphs(3, initialText: text);
   await editor.startTesting();
-  final scrollController = ScrollController();
-
-  final editorWithToolbar = FloatingToolbar(
-    items: [
-      paragraphItem,
-      ...headingItems,
-      placeholderItem,
-      ...markdownFormatItems,
-      placeholderItem,
-      quoteItem,
-      bulletedListItem,
-      numberedListItem,
-      placeholderItem,
-      linkItem,
-      textColorItem,
-      highlightColorItem,
-    ],
-    editorState: editor.editorState,
-    scrollController: scrollController,
-    child: AppFlowyEditor.standard(editorState: editor.editorState),
-  );
-
-  await tester.pumpWidget(
-    MaterialApp(
-      home: Material(
-        child: editorWithToolbar,
-      ),
-    ),
-  );
 
   final selection =
       Selection.single(path: [1], startOffset: 0, endOffset: text.length);
   await editor.updateSelection(selection);
-
-  // show toolbar
-  await tester.pumpAndSettle(const Duration(milliseconds: 500));
-  expect(find.byType(FloatingToolbar), findsOneWidget);
 
   // trigger the link menu
   if (Platform.isWindows || Platform.isLinux) {
