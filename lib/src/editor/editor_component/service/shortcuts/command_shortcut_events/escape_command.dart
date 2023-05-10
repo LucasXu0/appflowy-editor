@@ -13,7 +13,7 @@ final CommandShortcutEvent exitEditingCommand = CommandShortcutEvent(
   handler: _exitEditingCommandHandler,
 );
 
-CommandShortcutEventHandler _exitEditingCommandHandler = (editorState, _) {
+CommandShortcutEventHandler _exitEditingCommandHandler = (editorState) {
   if (PlatformExtension.isMobile) {
     assert(false, 'exitEditingCommand is not supported on mobile platform.');
     return KeyEventResult.ignored;

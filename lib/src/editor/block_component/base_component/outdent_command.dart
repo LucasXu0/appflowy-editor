@@ -13,7 +13,7 @@ final CommandShortcutEvent outdentCommand = CommandShortcutEvent(
   handler: _outdentCommandHandler,
 );
 
-CommandShortcutEventHandler _outdentCommandHandler = (editorState, _) {
+CommandShortcutEventHandler _outdentCommandHandler = (editorState) {
   final selection = editorState.selection;
   if (selection == null || !selection.isCollapsed) {
     return KeyEventResult.ignored;

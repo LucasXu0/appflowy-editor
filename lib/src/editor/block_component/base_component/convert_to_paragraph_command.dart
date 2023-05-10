@@ -23,8 +23,7 @@ final CommandShortcutEvent convertToParagraphCommand = CommandShortcutEvent(
   handler: _convertToParagraphCommandHandler,
 );
 
-CommandShortcutEventHandler _convertToParagraphCommandHandler =
-    (editorState, _) {
+CommandShortcutEventHandler _convertToParagraphCommandHandler = (editorState) {
   final selection = editorState.selection;
   if (selection == null || !selection.isCollapsed) {
     return KeyEventResult.ignored;

@@ -25,7 +25,7 @@ final CommandShortcutEvent moveCursorRightCommand = CommandShortcutEvent(
   handler: _arrowRightCommandHandler,
 );
 
-CommandShortcutEventHandler _arrowRightCommandHandler = (editorState, _) {
+CommandShortcutEventHandler _arrowRightCommandHandler = (editorState) {
   if (PlatformExtension.isMobile) {
     assert(false, 'arrow right key is not supported on mobile platform.');
     return KeyEventResult.ignored;
@@ -43,7 +43,7 @@ final CommandShortcutEvent moveCursorToEndCommand = CommandShortcutEvent(
   handler: _moveCursorToEndCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorToEndCommandHandler = (editorState, _) {
+CommandShortcutEventHandler _moveCursorToEndCommandHandler = (editorState) {
   if (PlatformExtension.isMobile) {
     assert(false, 'arrow right key is not supported on mobile platform.');
     return KeyEventResult.ignored;
@@ -61,7 +61,7 @@ final CommandShortcutEvent moveCursorToRightWordCommand = CommandShortcutEvent(
 );
 
 CommandShortcutEventHandler _moveCursorToRightWordCommandHandler =
-    (editorState, _) {
+    (editorState) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -79,7 +79,7 @@ final CommandShortcutEvent moveCursorRightWordSelectCommand =
 );
 
 CommandShortcutEventHandler _moveCursorRightWordSelectCommandHandler =
-    (editorState, _) {
+    (editorState) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -108,7 +108,7 @@ final CommandShortcutEvent moveCursorRightSelectCommand = CommandShortcutEvent(
 );
 
 CommandShortcutEventHandler _moveCursorRightSelectCommandHandler =
-    (editorState, _) {
+    (editorState) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -132,8 +132,7 @@ final CommandShortcutEvent moveCursorEndSelectCommand = CommandShortcutEvent(
   handler: _moveCursorEndSelectCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorEndSelectCommandHandler =
-    (editorState, _) {
+CommandShortcutEventHandler _moveCursorEndSelectCommandHandler = (editorState) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;

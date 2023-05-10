@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 typedef CommandShortcutEventHandler = KeyEventResult Function(
   EditorState editorState,
-  BuildContext? buildContext,
 );
 
 /// Defines the implementation of shortcut event based on command.
@@ -107,8 +106,8 @@ class CommandShortcutEvent {
     return keybindings.containsKeyEvent(event);
   }
 
-  KeyEventResult execute(EditorState editorState, BuildContext? context) {
-    return handler(editorState, context);
+  KeyEventResult execute(EditorState editorState) {
+    return handler(editorState);
   }
 
   CommandShortcutEvent copyWith({
