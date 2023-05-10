@@ -1,5 +1,6 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:appflowy_editor/src/editor/toolbar/items/utils/tooltip_util.dart';
+import 'package:flutter/material.dart';
 
 final textColorItem = ToolbarItem(
   id: 'editor.textColor',
@@ -18,6 +19,7 @@ final textColorItem = ToolbarItem(
       );
     });
     return IconItemWidget(
+      key: const Key('toolbar_item_text_color'),
       iconName: 'toolbar/text_color',
       isHighlight: isHighlight,
       tooltip:
