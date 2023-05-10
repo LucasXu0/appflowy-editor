@@ -13,7 +13,7 @@ final CommandShortcutEvent pageDownCommand = CommandShortcutEvent(
   handler: _pageUpCommandHandler,
 );
 
-CommandShortcutEventHandler _pageUpCommandHandler = (editorState, _) {
+CommandShortcutEventHandler _pageUpCommandHandler = (editorState) {
   if (PlatformExtension.isMobile) {
     assert(false, 'pageDownCommand is not supported on mobile platform.');
     return KeyEventResult.ignored;

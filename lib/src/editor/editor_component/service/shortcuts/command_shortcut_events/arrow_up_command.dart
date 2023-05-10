@@ -24,7 +24,7 @@ final CommandShortcutEvent moveCursorUpCommand = CommandShortcutEvent(
   handler: _moveCursorUpCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorUpCommandHandler = (editorState, _) {
+CommandShortcutEventHandler _moveCursorUpCommandHandler = (editorState) {
   if (PlatformExtension.isMobile) {
     assert(false, 'arrow up key is not supported on mobile platform.');
     return KeyEventResult.ignored;
@@ -53,8 +53,7 @@ final CommandShortcutEvent moveCursorTopSelectCommand = CommandShortcutEvent(
   handler: _moveCursorTopSelectCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorTopSelectCommandHandler =
-    (editorState, _) {
+CommandShortcutEventHandler _moveCursorTopSelectCommandHandler = (editorState) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -82,7 +81,7 @@ final CommandShortcutEvent moveCursorTopCommand = CommandShortcutEvent(
   handler: _moveCursorTopCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorTopCommandHandler = (editorState, _) {
+CommandShortcutEventHandler _moveCursorTopCommandHandler = (editorState) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;
@@ -109,8 +108,7 @@ final CommandShortcutEvent moveCursorUpSelectCommand = CommandShortcutEvent(
   handler: _moveCursorUpSelectCommandHandler,
 );
 
-CommandShortcutEventHandler _moveCursorUpSelectCommandHandler =
-    (editorState, _) {
+CommandShortcutEventHandler _moveCursorUpSelectCommandHandler = (editorState) {
   final selection = editorState.selection;
   if (selection == null) {
     return KeyEventResult.ignored;

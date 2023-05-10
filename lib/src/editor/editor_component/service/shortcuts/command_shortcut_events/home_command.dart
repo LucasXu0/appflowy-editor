@@ -13,7 +13,7 @@ final CommandShortcutEvent homeCommand = CommandShortcutEvent(
   handler: _homeCommandHandler,
 );
 
-CommandShortcutEventHandler _homeCommandHandler = (editorState, _) {
+CommandShortcutEventHandler _homeCommandHandler = (editorState) {
   if (PlatformExtension.isMobile) {
     assert(false, 'homeCommand is not supported on mobile platform.');
     return KeyEventResult.ignored;
