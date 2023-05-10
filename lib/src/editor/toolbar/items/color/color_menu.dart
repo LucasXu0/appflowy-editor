@@ -16,6 +16,7 @@ void showColorMenu(
   void dismissOverlay() {
     overlay?.remove();
     overlay = null;
+    editorState.service.keyboardService?.enable();
   }
 
   overlay = FullScreenOverlayEntry(

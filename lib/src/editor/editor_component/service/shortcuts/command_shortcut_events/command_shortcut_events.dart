@@ -12,3 +12,5 @@ export 'page_down_command.dart';
 export 'undo_redo_command.dart';
 export 'select_all_command.dart';
 export 'show_link_menu_command.dart';
+export 'show_text_color_menu_command.dart';
+export 'show_highlight_color_menu_command.dart';
