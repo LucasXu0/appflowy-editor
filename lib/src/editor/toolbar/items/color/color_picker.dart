@@ -84,6 +84,10 @@ class _ColorPickerState extends State<ColorPicker> {
                 opacityController: _colorOpacityController,
                 onSubmittedColorHex: widget.onSubmittedColorHex,
               ),
+              _buildColorItems(
+                widget.colorOptions,
+                widget.selectedColorHex,
+              ),
             ],
           ),
         ),
