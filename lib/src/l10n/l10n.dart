@@ -181,6 +181,16 @@ class AppFlowyEditorLocalizations {
     );
   }
 
+  /// `Reset to default color'
+  String get resetToDefaultColor {
+    return Intl.message(
+      'Reset to default color',
+      name: 'resetToDefaultColor',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Image`
   String get image {
     return Intl.message(
@@ -301,16 +311,6 @@ class AppFlowyEditorLocalizations {
     );
   }
 
-  /// `Default`
-  String get fontColorDefault {
-    return Intl.message(
-      'Default',
-      name: 'fontColorDefault',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Gray`
   String get fontColorGray {
     return Intl.message(
@@ -396,16 +396,6 @@ class AppFlowyEditorLocalizations {
     return Intl.message(
       'Red',
       name: 'fontColorRed',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Default background`
-  String get backgroundColorDefault {
-    return Intl.message(
-      'Default background',
-      name: 'backgroundColorDefault',
       desc: '',
       args: [],
     );
