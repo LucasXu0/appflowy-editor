@@ -29,12 +29,17 @@ abstract class AppFlowyScrollService implements AutoScrollerService {
 
   /// scroll controller
   ScrollController get scrollController;
+  bool get implecet;
+  double get offset;
 
   /// Scrolls to the specified position.
   ///
   /// This function will filter illegal values.
   /// Only within the range of minScrollExtent and maxScrollExtent are legal values.
-  void scrollTo(double dy, {Duration? duration,});
+  void scrollTo(
+    double dy, {
+    Duration? duration,
+  });
 
   void goBallistic(double velocity);
 
