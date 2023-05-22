@@ -1,4 +1,5 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
+import 'package:appflowy_editor/src/infra/mobile/mobile.dart';
 import 'package:flutter/material.dart';
 
 class MobileToolbar extends StatelessWidget {
@@ -11,6 +12,23 @@ class MobileToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> toolbarItems = [
+      IconButton(
+        onPressed: () {
+          editorState.selectionService.updateSelection(null);
+        },
+        icon: const Icon(Icons.keyboard_hide),
+      ),
+      // TODO(yijing): Implement features later
+      ...List.generate(
+          16,
+          (index) => IconButton(
+              onPressed: () {},
+              icon: AFMobileIcon(
+                afMobileIcons: AFMobileIcons.values.toList()[index],
+              ))),
+    ];
+
     return ValueListenableBuilder<Selection?>(
       valueListenable: editorState.service.selectionService.currentSelection,
       builder: (_, Selection? selection, __) {
@@ -20,19 +38,14 @@ class MobileToolbar extends StatelessWidget {
         final width = MediaQuery.of(context).size.width;
         return SizedBox(
           width: width,
-          height: 30,
+          height: 50,
           child: Container(
-            color: Colors.grey.withOpacity(0.3),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    editorState.selectionService.updateSelection(null);
-                  },
-                  icon: const Icon(Icons.keyboard_hide),
-                ),
-                const Text('FIXME: Mobile Toolbar'),
-              ],
+            // TODO(yijing): expose background color in editor style
+            color: const Color(0xFFF1F1F4),
+            child: ListView.builder(
+              itemBuilder: (context, index) => toolbarItems[index],
+              itemCount: toolbarItems.length,
+              scrollDirection: Axis.horizontal,
             ),
           ),
         );
