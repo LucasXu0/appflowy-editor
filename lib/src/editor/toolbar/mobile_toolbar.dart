@@ -1,34 +1,18 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
-import 'package:appflowy_editor/src/infra/mobile/mobile.dart';
 import 'package:flutter/material.dart';
 
 class MobileToolbar extends StatelessWidget {
   const MobileToolbar({
     super.key,
     required this.editorState,
+    required this.toolbarItems,
   });
 
   final EditorState editorState;
+  final List<Widget> toolbarItems;
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> toolbarItems = [
-      IconButton(
-        onPressed: () {
-          editorState.selectionService.updateSelection(null);
-        },
-        icon: const Icon(Icons.keyboard_hide),
-      ),
-      // TODO(yijing): Implement features later
-      ...List.generate(
-          16,
-          (index) => IconButton(
-              onPressed: () {},
-              icon: AFMobileIcon(
-                afMobileIcons: AFMobileIcons.values.toList()[index],
-              ))),
-    ];
-
     return ValueListenableBuilder<Selection?>(
       valueListenable: editorState.service.selectionService.currentSelection,
       builder: (_, Selection? selection, __) {
