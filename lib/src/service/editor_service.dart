@@ -193,6 +193,8 @@ class _AppFlowyEditorState extends State<AppFlowyEditor> {
           characterShortcutEvents: widget.characterShortcutEvents,
           commandShortcutEvents: widget.commandShortcutEvents,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               widget.header ?? const SizedBox.shrink(),
               Container(
