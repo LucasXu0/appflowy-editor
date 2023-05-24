@@ -26,6 +26,8 @@ abstract class AppFlowyScrollService implements AutoScrollerService {
 
   /// scroll controller
   ScrollController get scrollController;
+  bool get implecet;
+  double get offset;
 
   /// Scrolls to the specified position.
   ///
