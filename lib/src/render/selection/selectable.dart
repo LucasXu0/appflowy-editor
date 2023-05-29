@@ -67,4 +67,9 @@ mixin SelectableMixin<T extends StatefulWidget> on State<T> {
   bool get shouldCursorBlink => true;
 
   CursorStyle get cursorStyle => CursorStyle.verticalLine;
+
+  Rect transformRectToGlobal(Rect r) {
+    final Offset topLeft = localToGlobal(Offset(r.left, r.top));
+    return Rect.fromLTWH(topLeft.dx, topLeft.dy, r.width, r.height);
+  }
 }
