@@ -14,7 +14,7 @@ CharacterShortcutEvent formatNumberToNumberedList = CharacterShortcutEvent(
   character: ' ',
   handler: (editorState) async => await formatMarkdownSymbol(
     editorState,
-    (node) => node.type != 'numbered_list',
+    (node) => node.type != NumberedListBlockKeys.type,
     (text, selection) {
       final match = _numberRegex.firstMatch(text);
       final matchText = match?.group(0);
@@ -27,11 +27,8 @@ CharacterShortcutEvent formatNumberToNumberedList = CharacterShortcutEvent(
     (text, node, delta) {
       final match = _numberRegex.firstMatch(text)!;
       final matchText = match.group(0)!;
-      return Node(
-        type: 'numbered_list',
-        attributes: {
-          'delta': delta.compose(Delta()..delete(matchText.length)).toJson(),
-        },
+      return numberedListNode(
+        delta: delta.compose(Delta()..delete(matchText.length)),
       );
     },
   ),
@@ -49,6 +46,6 @@ CharacterShortcutEvent insertNewLineAfterNumberedList = CharacterShortcutEvent(
   character: '\n',
   handler: (editorState) async => await insertNewLineInType(
     editorState,
-    'numbered_list',
+    NumberedListBlockKeys.type,
   ),
 );

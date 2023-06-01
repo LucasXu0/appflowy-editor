@@ -4,11 +4,11 @@ class NumberedListNodeParser extends NodeParser {
   const NumberedListNodeParser();
 
   @override
-  String get id => 'numbered_list';
+  String get id => NumberedListBlockKeys.type;
 
   @override
   String transform(Node node) {
-    assert(node.type == 'numbered_list');
+    assert(node.type == NumberedListBlockKeys.type);
 
     final delta = node.delta;
     if (delta == null) {

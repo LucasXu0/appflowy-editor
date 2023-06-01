@@ -7,7 +7,7 @@ final ToolbarItem paragraphItem = ToolbarItem(
   builder: (context, editorState) {
     final selection = editorState.selection!;
     final node = editorState.getNodeAtPath(selection.start.path)!;
-    final isHighlight = node.type == 'paragraph';
+    final isHighlight = node.type == ParagraphBlockKeys.type;
     return IconItemWidget(
       iconName: 'toolbar/text',
       isHighlight: isHighlight,
@@ -17,7 +17,7 @@ final ToolbarItem paragraphItem = ToolbarItem(
         (node) => node.copyWith(
           type: ParagraphBlockKeys.type,
           attributes: {
-            'delta': (node.delta ?? Delta()).toJson(),
+            ParagraphBlockKeys.delta: (node.delta ?? Delta()).toJson(),
             ParagraphBlockKeys.backgroundColor:
                 node.attributes[blockComponentBackgroundColor],
           },

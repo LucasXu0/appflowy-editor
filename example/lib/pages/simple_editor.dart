@@ -99,6 +99,8 @@ class SimpleEditor extends StatelessWidget {
     ScrollController? scrollController,
   ) {
     return AppFlowyEditor.standard(
+      editorStyle: const EditorStyle.desktop()
+          .copyWith(padding: EdgeInsets.only(left: 100, right: 100, top: 20)),
       editorState: editorState,
       scrollController: scrollController,
     );

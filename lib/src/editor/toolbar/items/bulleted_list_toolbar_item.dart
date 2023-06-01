@@ -7,7 +7,7 @@ final ToolbarItem bulletedListItem = ToolbarItem(
   builder: (context, editorState) {
     final selection = editorState.selection!;
     final node = editorState.getNodeAtPath(selection.start.path)!;
-    final isHighlight = node.type == 'bulleted_list';
+    final isHighlight = node.type == BulletedListBlockKeys.type;
     return IconItemWidget(
       iconName: 'toolbar/bulleted_list',
       isHighlight: isHighlight,
@@ -15,7 +15,9 @@ final ToolbarItem bulletedListItem = ToolbarItem(
       onPressed: () => editorState.formatNode(
         selection,
         (node) => node.copyWith(
-          type: isHighlight ? 'paragraph' : 'bulleted_list',
+          type: isHighlight
+              ? ParagraphBlockKeys.type
+              : BulletedListBlockKeys.type,
         ),
       ),
     );

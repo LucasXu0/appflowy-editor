@@ -53,7 +53,8 @@ bool insertNodeAfterSelection(
   if (delta != null && delta.isEmpty) {
     transaction
       ..insertNode(selection.end.path, node)
-      ..deleteNode(currentNode);
+      ..deleteNode(currentNode)
+      ..afterSelection = selection;
   } else {
     final next = selection.end.path.next;
     transaction

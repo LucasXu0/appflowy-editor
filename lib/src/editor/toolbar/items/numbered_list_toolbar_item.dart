@@ -7,7 +7,7 @@ final ToolbarItem numberedListItem = ToolbarItem(
   builder: (context, editorState) {
     final selection = editorState.selection!;
     final node = editorState.getNodeAtPath(selection.start.path)!;
-    final isHighlight = node.type == 'numbered_list';
+    final isHighlight = node.type == NumberedListBlockKeys.type;
     return IconItemWidget(
       iconName: 'toolbar/numbered_list',
       isHighlight: isHighlight,
@@ -15,9 +15,11 @@ final ToolbarItem numberedListItem = ToolbarItem(
       onPressed: () => editorState.formatNode(
         selection,
         (node) => node.copyWith(
-          type: isHighlight ? 'paragraph' : 'numbered_list',
+          type: isHighlight
+              ? ParagraphBlockKeys.type
+              : NumberedListBlockKeys.type,
           attributes: {
-            'delta': (node.delta ?? Delta()).toJson(),
+            ParagraphBlockKeys.delta: (node.delta ?? Delta()).toJson(),
           },
         ),
       ),

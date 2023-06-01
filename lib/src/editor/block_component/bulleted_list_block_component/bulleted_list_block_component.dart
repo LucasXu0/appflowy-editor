@@ -167,7 +167,7 @@ class _BulletedListIcon extends StatelessWidget {
     var level = 0;
     var parent = node.parent;
     while (parent != null) {
-      if (parent.type == 'bulleted_list') {
+      if (parent.type == BulletedListBlockKeys.type) {
         level++;
       }
       parent = parent.parent;

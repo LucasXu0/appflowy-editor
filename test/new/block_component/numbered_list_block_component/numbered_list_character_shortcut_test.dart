@@ -52,7 +52,7 @@ void main() async {
         (result, before, after) {
           expect(result, true);
           expect(after.delta!.toPlainText(), text);
-          expect(after.type, 'numbered_list');
+          expect(after.type, NumberedListBlockKeys.type);
         },
         text: text,
       );
@@ -106,7 +106,7 @@ void main() async {
 
       // the second line will be formatted as the bulleted list style
       expect(result, true);
-      expect(after.type, 'numbered_list');
+      expect(after.type, NumberedListBlockKeys.type);
       expect(after.delta!.toPlainText(), text);
     });
   });

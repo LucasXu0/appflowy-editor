@@ -168,7 +168,7 @@ class _NumberedListIconBuilder {
     var level = 1;
     var previous = node.previous;
     while (previous != null) {
-      if (previous.type == 'numbered_list') {
+      if (previous.type == NumberedListBlockKeys.type) {
         level++;
       } else {
         break;
