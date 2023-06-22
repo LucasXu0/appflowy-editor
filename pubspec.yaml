@@ -19,7 +19,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  rich_clipboard: ^1.0.0
   html: ^0.15.0
   flutter_svg: ^2.0.6
   provider: ^6.0.5
@@ -34,6 +33,7 @@ dependencies:
   collection: ^1.17.0
   nanoid: ^1.0.0
   visibility_detector: ^0.4.0+2
+  super_clipboard: ^0.3.0+2
 
 dev_dependencies:
   flutter_test:

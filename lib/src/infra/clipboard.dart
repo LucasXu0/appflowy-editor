@@ -1,15 +1,19 @@
-import 'dart:io' show Platform;
+import 'package:super_clipboard/super_clipboard.dart';
 
-import 'package:flutter/foundation.dart';
-import 'package:rich_clipboard/rich_clipboard.dart';
+const formatInAppData = CustomValueFormat<String>(
+  applicationId: 'com.appflowy.editor.inAppData',
+);
 
 class AppFlowyClipboardData {
   const AppFlowyClipboardData({
     required this.text,
     required this.html,
+    this.inAppData,
   });
+
   final String? text;
   final String? html;
+  final String? inAppData;
 }
 
 class AppFlowyClipboard {
@@ -17,39 +21,31 @@ class AppFlowyClipboard {
     String? text,
     String? html,
   }) async {
-    // https://github.com/BringingFire/rich_clipboard/issues/13
-    // Wrapping a `<html><body>` tag for html in Windows,
-    //  otherwise it will raise an exception
-    if (!kIsWeb && Platform.isWindows && html != null) {
-      if (!html.startsWith('<html><body>')) {
-        html = '<html><body>$html</body></html>';
-      }
+    final item = DataWriterItem();
+    if (text != null) {
+      item.add(Formats.plainText(text));
     }
-
-    return RichClipboard.setData(
-      RichClipboardData(
-        text: text,
-        html: html,
-      ),
-    );
+    if (html != null) {
+      item.add(Formats.htmlText(html));
+    }
+    await ClipboardWriter.instance.write([item]);
   }
 
   static Future<AppFlowyClipboardData> getData() async {
-    final data = await RichClipboard.getData();
-    final text = data.text;
-    var html = data.html;
-
-    // https://github.com/BringingFire/rich_clipboard/issues/13
-    // Remove all the fragment symbol in Windows.
-    if (!kIsWeb && Platform.isWindows && html != null) {
-      html = html
-          .replaceAll('<!--StartFragment-->', '')
-          .replaceAll('<!--EndFragment-->', '');
-    }
-
+    final reader = await ClipboardReader.readClipboard();
+    final text = reader.canProvide(Formats.plainText)
+        ? await reader.readValue(Formats.plainText)
+        : null;
+    final html = reader.canProvide(Formats.htmlText)
+        ? await reader.readValue(Formats.htmlText)
+        : null;
+    final inAppData = reader.canProvide(formatInAppData)
+        ? await reader.readValue(formatInAppData)
+        : null;
     return AppFlowyClipboardData(
       text: text,
       html: html,
+      inAppData: inAppData,
     );
   }
 }
