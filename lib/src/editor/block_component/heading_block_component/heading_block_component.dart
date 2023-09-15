@@ -136,6 +136,9 @@ class _HeadingBlockComponentWidgetState
       // make the width of the rich text as small as possible to avoid
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        textDirection: textDirection,
         children: [
           Flexible(
             child: AppFlowyRichText(
