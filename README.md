@@ -41,6 +41,19 @@ and the Flutter guide for
   * toolbar menu
 * [Test Coverage](https://github.com/AppFlowy-IO/appflowy-editor/blob/main/documentation/testing.md) and ongoing maintenance by AppFlowy's core team and community of more than 1,000 builders
 
+## Preview
+
+<!-- ![](documentation/images/4f55a6c23b91f1081d4a423a7f8270a1.jpg) -->
+
+| Preview                | Customize your own theme   |
+| ---------------------- | ------------------------   |
+| ![Preview](documentation/images/preview.jpg) | ![Customize your own theme](documentation/images/theme.jpg) |
+
+| Change the color of your text       | Format your text   |
+| ---------------------- | ----------------------     |
+| ![Color](documentation/images/color.jpg) | ![Format](documentation/images/format.jpg) |
+
+
 ## Getting Started
 
 Add the AppFlowy editor [Flutter package](https://docs.flutter.dev/development/packages-and-plugins/using-packages) to your environment.
