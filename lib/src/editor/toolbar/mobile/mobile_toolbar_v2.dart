@@ -53,16 +53,22 @@ class _MobileToolbarV2State extends State<MobileToolbarV2> {
 
     Widget child = ValueListenableBuilder<Selection?>(
       valueListenable: widget.editorState.selectionNotifier,
-      builder: (_, Selection? selection, child) {
+      builder: (_, Selection? selection, __) {
         // if the selection is null, hide the toolbar
         if (selection == null) {
           return const SizedBox.shrink();
         }
 
+        Widget child = _MobileToolbar(
+          editorState: widget.editorState,
+          toolbarItems: widget.toolbarItems,
+          bottomOffset: widget.bottomOffset,
+        );
+
         // if the MobileToolbarTheme is not provided, provide it
         if (MobileToolbarTheme.maybeOf(context) == null) {
           child = MobileToolbarTheme(
-            child: child!,
+            child: child,
           );
         }
 
@@ -70,11 +76,6 @@ class _MobileToolbarV2State extends State<MobileToolbarV2> {
           child: child,
         );
       },
-      child: _MobileToolbar(
-        editorState: widget.editorState,
-        toolbarItems: widget.toolbarItems,
-        bottomOffset: widget.bottomOffset,
-      ),
     );
 
     child = Stack(
@@ -127,9 +128,6 @@ class _MobileToolbarState extends State<_MobileToolbar>
   // This is because we want to keep the same height when the menu is shown.
   bool canUpdateCachedKeyboardHeight = true;
   ValueNotifier<double> cachedKeyboardHeight = ValueNotifier(0.0);
-  double get keyboardHeight => MediaQuery.of(context).viewInsets.bottom;
-  double get safeAreaBottomPadding => MediaQuery.of(context).viewPadding.bottom;
-
   final keyboardHeightPlugin = KeyboardHeightPlugin();
 
   // used to check if click the same item again
@@ -179,15 +177,6 @@ class _MobileToolbarState extends State<_MobileToolbar>
 
   @override
   Widget build(BuildContext context) {
-    // update the keyboard height here.
-    // try to get the height in `didChangeMetrics`, but it's not accurate.
-    if (canUpdateCachedKeyboardHeight) {
-      // cachedKeyboardHeight.value = max(
-      //   0,
-      //   keyboardHeight - safeAreaBottomPadding - widget.bottomOffset,
-      // );
-      // print('cachedKeyboardHeight: ${cachedKeyboardHeight.value}');
-    }
     // toolbar
     //  - if the menu is shown, the toolbar will be pushed up by the height of the menu
     //  - otherwise, add a spacer to push the toolbar up when the keyboard is shown
