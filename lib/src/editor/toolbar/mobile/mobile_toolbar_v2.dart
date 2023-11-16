@@ -7,13 +7,13 @@ class MobileToolbarV2 extends StatefulWidget {
     super.key,
     required this.editorState,
     required this.toolbarItems,
-    this.bottomOffset = 0.0,
+    required this.toolbarHeight,
     required this.child,
   });
 
   final EditorState editorState;
   final List<MobileToolbarItem> toolbarItems;
-  final double bottomOffset;
+  final double toolbarHeight;
   final Widget child;
 
   @override
@@ -39,7 +39,17 @@ class _MobileToolbarV2State extends State<MobileToolbarV2> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return Column(
+      children: [
+        Expanded(
+          child: widget.child,
+        ),
+        // add a bottom offset to make sure the toolbar is above the keyboard
+        SizedBox(
+          height: widget.toolbarHeight,
+        ),
+      ],
+    );
   }
 
   void _removeKeyboardToolbar() {
@@ -62,7 +72,6 @@ class _MobileToolbarV2State extends State<MobileToolbarV2> {
         Widget child = _MobileToolbar(
           editorState: widget.editorState,
           toolbarItems: widget.toolbarItems,
-          bottomOffset: widget.bottomOffset,
         );
 
         // if the MobileToolbarTheme is not provided, provide it
@@ -107,12 +116,10 @@ class _MobileToolbar extends StatefulWidget {
   const _MobileToolbar({
     required this.editorState,
     required this.toolbarItems,
-    required this.bottomOffset,
   });
 
   final EditorState editorState;
   final List<MobileToolbarItem> toolbarItems;
-  final double bottomOffset;
 
   @override
   State<_MobileToolbar> createState() => _MobileToolbarState();
