@@ -45,6 +45,7 @@ class _IgnoreEditorSelectionGestureState
   @override
   void dispose() {
     editorState.selectionService.unregisterGestureInterceptor(key);
+    _focusNode.dispose();
     super.dispose();
   }
 
