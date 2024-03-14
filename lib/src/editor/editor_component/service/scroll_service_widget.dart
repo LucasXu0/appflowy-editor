@@ -101,14 +101,15 @@ class _ScrollServiceWidgetState extends State<ScrollServiceWidget>
       if (PlatformExtension.isMobile) {
         // soft keyboard
         // workaround: wait for the soft keyboard to show up
+
         return Future.delayed(
             Duration(
               milliseconds:
-                  KeyboardHeightObserver.currentKeyboardHeight == 0 ? 250 : 0,
+                  KeyboardHeightObserver.currentKeyboardHeight == 0 ? 200 : 0,
             ), () {
           startAutoScroll(
             endTouchPoint,
-            edgeOffset: 150,
+            edgeOffset: 250,
             duration: Duration.zero,
           );
         });

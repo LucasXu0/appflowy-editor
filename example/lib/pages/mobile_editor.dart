@@ -1,5 +1,7 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
+import 'package:example/widgets/mobile_toolbar_v4.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MobileEditor extends StatefulWidget {
@@ -48,63 +50,45 @@ class _MobileEditorState extends State<MobileEditor> {
   @override
   Widget build(BuildContext context) {
     assert(PlatformExtension.isMobile);
-    return MobileToolbarV2(
-      toolbarHeight: 48.0,
-      toolbarItems: [
-        textDecorationMobileToolbarItemV2,
-        buildTextAndBackgroundColorMobileToolbarItem(),
-        blocksMobileToolbarItem,
-        linkMobileToolbarItem,
-        dividerMobileToolbarItem,
-      ],
-      editorState: editorState,
-      child: Column(
-        children: [
-          // build appflowy editor
-          Expanded(
-            child: MobileFloatingToolbar(
-              editorState: editorState,
-              editorScrollController: editorScrollController,
-              toolbarBuilder: (context, anchor, closeToolbar) {
-                return AdaptiveTextSelectionToolbar.editable(
-                  clipboardStatus: ClipboardStatus.pasteable,
-                  onCopy: () {
-                    copyCommand.execute(editorState);
-                    closeToolbar();
-                  },
-                  onCut: () => cutCommand.execute(editorState),
-                  onPaste: () => pasteCommand.execute(editorState),
-                  onSelectAll: () => selectAllCommand.execute(editorState),
-                  onLiveTextInput: null,
-                  onLookUp: null,
-                  onSearchWeb: null,
-                  onShare: null,
-                  anchors: TextSelectionToolbarAnchors(
-                    primaryAnchor: anchor,
-                  ),
-                );
-              },
-              child: AppFlowyEditor(
-                editorStyle: editorStyle,
-                editorState: editorState,
-                editorScrollController: editorScrollController,
-                blockComponentBuilders: blockComponentBuilders,
-                showMagnifier: true,
-                // showcase 3: customize the header and footer.
-                header: Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: Image.asset(
-                    'assets/images/header.png',
-                  ),
-                ),
-                footer: const SizedBox(
-                  height: 100,
-                ),
+    return Column(
+      children: [
+        // build appflowy editor
+        Expanded(
+          child: AppFlowyEditor(
+            editorStyle: editorStyle,
+            editorState: editorState,
+            editorScrollController: editorScrollController,
+            blockComponentBuilders: blockComponentBuilders,
+            showMagnifier: true,
+            // showcase 3: customize the header and footer.
+            header: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Image.asset(
+                'assets/images/header.png',
               ),
             ),
+            footer: const SizedBox(
+              height: 100,
+            ),
           ),
-        ],
-      ),
+        ),
+        MobileToolbarV4(
+          editorState: editorState,
+        ),
+        ValueListenableBuilder(
+          valueListenable: showKeyboardMenu,
+          builder: (_, value, __) {
+            if (value) {
+              SystemChannels.textInput.invokeMethod('TextInput.hide');
+              return Container(
+                height: 240,
+                color: Colors.blue,
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+      ],
     );
   }
 

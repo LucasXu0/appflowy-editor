@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
+import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:example/pages/desktop_editor.dart';
 import 'package:example/pages/mobile_editor.dart';
-
-import 'package:appflowy_editor/appflowy_editor.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Editor extends StatefulWidget {
   const Editor({
@@ -69,6 +68,14 @@ class _EditorState extends State<Editor> {
   }
 
   @override
+  void reassemble() {
+    // hide the keyboard
+    editorState?.selection = null;
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+    super.reassemble();
+  }
+
+  @override
   void dispose() {
     editorState?.dispose();
     super.dispose();
@@ -123,35 +130,36 @@ class _EditorState extends State<Editor> {
             },
           ),
         ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.1),
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(8),
-                bottomLeft: PlatformExtension.isMobile
-                    ? const Radius.circular(8)
-                    : Radius.zero,
-              ),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  'Word Count: $wordCount  |  Character Count: $charCount',
-                  style: const TextStyle(fontSize: 11),
+        if (PlatformExtension.isDesktopOrWeb)
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.1),
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(8),
+                  bottomLeft: PlatformExtension.isMobile
+                      ? const Radius.circular(8)
+                      : Radius.zero,
                 ),
-                if (!(editorState?.selection?.isCollapsed ?? true))
+              ),
+              child: Column(
+                children: [
                   Text(
-                    '(In-selection) Word Count: $selectedWordCount  |  Character Count: $selectedCharCount',
+                    'Word Count: $wordCount  |  Character Count: $charCount',
                     style: const TextStyle(fontSize: 11),
                   ),
-              ],
+                  if (!(editorState?.selection?.isCollapsed ?? true))
+                    Text(
+                      '(In-selection) Word Count: $selectedWordCount  |  Character Count: $selectedCharCount',
+                      style: const TextStyle(fontSize: 11),
+                    ),
+                ],
+              ),
             ),
           ),
-        ),
       ],
     );
   }
