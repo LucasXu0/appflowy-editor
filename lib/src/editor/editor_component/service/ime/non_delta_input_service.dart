@@ -41,6 +41,7 @@ class NonDeltaTextInputService extends TextInputService with TextInputClient {
 
   @override
   Future<void> apply(List<TextEditingDelta> deltas) async {
+    Log.input.debug('apply delta: $deltas');
     final formattedDeltas = deltas.map((e) => e.format()).toList();
     for (final delta in formattedDeltas) {
       _updateComposing(delta);
@@ -91,6 +92,7 @@ class NonDeltaTextInputService extends TextInputService with TextInputClient {
 
   @override
   void updateEditingValue(TextEditingValue value) {
+    Log.input.debug('updateEditingValue: $value');
     if (currentTextEditingValue == value) {
       return;
     }

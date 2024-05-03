@@ -29,6 +29,7 @@ class DeltaTextInputService extends TextInputService with DeltaTextInputClient {
 
   @override
   Future<void> apply(List<TextEditingDelta> deltas) async {
+    Log.input.debug('apply delta: $deltas');
     final formattedDeltas = deltas.map((e) => e.format()).toList();
     for (final delta in formattedDeltas) {
       _updateComposing(delta);
@@ -56,13 +57,6 @@ class DeltaTextInputService extends TextInputService with DeltaTextInputClient {
       _textInputConnection = TextInput.attach(
         this,
         configuration,
-        // TextInputConfiguration(
-        //   enableDeltaModel: true,
-        //   inputType: TextInputType.multiline,
-        //   textCapitalization: TextCapitalization.sentences,
-        //   inputAction: TextInputAction.newline,
-        //   keyboardAppearance: Theme.of(context).brightness,
-        // ),
       );
     }
 
