@@ -36,6 +36,18 @@ Diff getDiff(String oldText, String newText, int cursorPosition) {
       start++) {}
   final deleted = (start >= end) ? '' : oldText.substring(start, end);
   final inserted = newText.substring(start, end + delta);
+
+  var i = 0;
+  while (i < deleted.length && i < inserted.length) {
+    if (deleted[i] == inserted[i]) {
+      i++;
+    } else {
+      break;
+    }
+  }
+  if (i != 0) {
+    return Diff(start + i, deleted.substring(i), inserted.substring(i));
+  }
   return Diff(start, deleted, inserted);
 }
 
