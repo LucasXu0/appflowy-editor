@@ -25,7 +25,7 @@ class MarkdownUnorderedListItemParserV2 extends CustomMarkdownParser {
     int sliceIndex = -1;
     if (element.children != null) {
       for (final child in element.children!.reversed) {
-        if (child is md.Element) {
+        if (child is md.Element && child.tag != 'a') {
           ec.add(child);
         } else {
           break;
