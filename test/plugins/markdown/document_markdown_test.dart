@@ -48,7 +48,7 @@ void main() {
       expect(nodes[1].attributes['url'], 'https://example.com/image.png');
     });
 
-    test('paragraph + image without \n', () {
+    test('paragrsaph + image without \n', () {
       const markdown =
           '''This is the first line![image](https://example.com/image.png)''';
       final document = markdownToDocument(markdown);
