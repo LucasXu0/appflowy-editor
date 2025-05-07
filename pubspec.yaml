@@ -12,6 +12,7 @@ description: A highly customizable rich-text editor for Flutter. The AppFlowy
   Editor project for AppFlowy and beyond.
 
 dependencies:
+  animated_text_kit: ^4.2.3
   collection: "^1.18.0"
   device_info_plus: "^11.0.0"
   diff_match_patch: "^0.4.1"

@@ -113,6 +113,8 @@ class _DragToReorderEditorState extends State<DragToReorderEditor> {
   }
 }
 
+int _index = 0;
+
 class DragToReorderAction extends StatefulWidget {
   const DragToReorderAction({
     super.key,
@@ -145,6 +147,14 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
   // so we need to restore the selection after tap the option button
   Selection? beforeSelection;
   RenderBox? get renderBox => context.findRenderObject() as RenderBox?;
+
+  final _samples = [
+    'The quick brown fox jumps over the lazy dog while the watchful shepherd carefully observes from a distance, wondering if he should intervene or let nature take its course as the afternoon sun casts long shadows across the verdant meadow.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed vitae nisl euismod, aliquam nisl sit amet, aliquam nisl. Donec euismod, nisl eget ultricies tincidunt.',
+    'All that glitters is not gold, but it sure catches the eye of passersby who are drawn to its luminous appeal. The ancient philosophers often warned against being deceived by appearances, yet humans continue to be attracted to shiny objects, whether metaphorical or literal, throughout their lives.',
+    'To be or not to be, that is the question that has puzzled philosophers and ordinary people alike for centuries. The existential dilemma of human existence continues to provoke deep thought and contemplation as we navigate the complex journey of life with all its uncertainties and possibilities.',
+    'In the middle of difficulty lies opportunity for those willing to persevere through challenges. The greatest achievements often come after periods of intense struggle, teaching us that resilience and determination are perhaps the most valuable traits one can cultivate in the pursuit of meaningful goals.',
+  ];
 
   @override
   void initState() {
@@ -223,7 +233,8 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
           child: const MouseRegion(
             cursor: SystemMouseCursors.grab,
             child: Icon(
-              Icons.drag_indicator_rounded,
+              Icons.star_rounded,
+              color: Colors.red,
               size: 18,
             ),
           ),
@@ -233,26 +244,37 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
   }
 
   void _onTap() {
-    final path = widget.blockComponentContext.node.path;
+    // final path = widget.blockComponentContext.node.path;
 
-    debugPrint('onTap, path($path), beforeSelection($beforeSelection)');
+    // debugPrint('onTap, path($path), beforeSelection($beforeSelection)');
 
-    if (beforeSelection != null && path.inSelection(beforeSelection)) {
-      debugPrint('onTap(1), set selection to block');
-      editorState.updateSelectionWithReason(
-        beforeSelection,
-        customSelectionType: SelectionType.block,
-      );
-    } else {
-      debugPrint('onTap(2), set selection to block');
-      final selection = Selection.collapsed(
-        Position(path: path),
-      );
-      editorState.updateSelectionWithReason(
-        selection,
-        customSelectionType: SelectionType.block,
-      );
-    }
+    // if (beforeSelection != null && path.inSelection(beforeSelection)) {
+    //   debugPrint('onTap(1), set selection to block');
+    //   editorState.updateSelectionWithReason(
+    //     beforeSelection,
+    //     customSelectionType: SelectionType.block,
+    //   );
+    // } else {
+    //   debugPrint('onTap(2), set selection to block');
+    //   final selection = Selection.collapsed(
+    //     Position(path: path),
+    //   );
+    //   editorState.updateSelectionWithReason(
+    //     selection,
+    //     customSelectionType: SelectionType.block,
+    //   );
+    // }
+
+    widget.blockComponentContext.node.updateAttributes({
+      'animations': _index,
+      'delta': Delta(
+        operations: [
+          TextInsert(_samples[_index]),
+        ],
+      ).toJson(),
+    });
+
+    _index = (_index + 1) % _samples.length;
   }
 
   bool _isTapInBounds(Offset offset) {

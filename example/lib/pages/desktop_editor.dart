@@ -18,7 +18,8 @@ class DesktopEditor extends StatefulWidget {
   State<DesktopEditor> createState() => _DesktopEditorState();
 }
 
-class _DesktopEditorState extends State<DesktopEditor> {
+class _DesktopEditorState extends State<DesktopEditor>
+    with TickerProviderStateMixin {
   EditorState get editorState => widget.editorState;
 
   late final EditorScrollController editorScrollController;
@@ -26,6 +27,8 @@ class _DesktopEditorState extends State<DesktopEditor> {
   late EditorStyle editorStyle;
   late Map<String, BlockComponentBuilder> blockComponentBuilders;
   late List<CommandShortcutEvent> commandShortcuts;
+
+  final Map<String, (AnimationController, Animation<double>)> _animations = {};
 
   @override
   void initState() {
@@ -45,6 +48,10 @@ class _DesktopEditorState extends State<DesktopEditor> {
   void dispose() {
     editorScrollController.dispose();
     editorState.dispose();
+
+    for (final animation in _animations.values) {
+      animation.$1.dispose();
+    }
 
     super.dispose();
   }
@@ -97,6 +104,76 @@ class _DesktopEditorState extends State<DesktopEditor> {
           dropTargetStyle: const AppFlowyDropTargetStyle(
             color: Colors.red,
           ),
+          blockWrapper: (
+            context, {
+            required Node node,
+            required Widget child,
+          }) {
+            if (node.attributes['animations'] != null) {
+              if (_animations.containsKey(node.id)) {
+                final (controller, fade) = _animations[node.id]!;
+                controller.dispose();
+              }
+
+              final controller = AnimationController(
+                vsync: this,
+                duration: const Duration(milliseconds: 2000),
+              );
+              final progress = Tween<double>(
+                begin: 0,
+                end: 1,
+              ).animate(controller);
+              _animations[node.id] = (controller, progress);
+              controller.forward();
+
+              return AnimatedBuilder(
+                animation: progress,
+                builder: (context, childWidget) {
+                  if (progress.isCompleted) {
+                    // After animation, show text in black
+                    return ColorFiltered(
+                      colorFilter:
+                          const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                      child: childWidget,
+                    );
+                  }
+                  // Rainbow sweep gradient animation
+                  return ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return SweepGradient(
+                        center: Alignment.center,
+                        startAngle: 0.0,
+                        endAngle: 6.28319, // 2 * pi
+                        stops: [
+                          0.0,
+                          1 / 6,
+                          2 / 6,
+                          3 / 6,
+                          4 / 6,
+                          5 / 6,
+                          1.0,
+                        ].map((stop) => (stop + progress.value) % 1.0).toList(),
+                        colors: const [
+                          Colors.red,
+                          Colors.orange,
+                          Colors.yellow,
+                          Colors.green,
+                          Colors.blue,
+                          Colors.indigo,
+                          Colors.purple,
+                        ],
+                        tileMode: TileMode.repeated,
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.srcIn,
+                    child: childWidget,
+                  );
+                },
+                child: child,
+              );
+            }
+            return child;
+          },
           header: Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: Image.asset(

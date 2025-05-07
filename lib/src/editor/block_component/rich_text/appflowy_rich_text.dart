@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:appflowy_editor/appflowy_editor.dart';
+import 'package:appflowy_editor/src/editor/block_component/rich_text/text_span_generator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -557,86 +558,13 @@ class _AppFlowyRichTextState extends State<AppFlowyRichText>
   TextSpan getTextSpan({
     required Iterable<TextInsert> textInserts,
   }) {
-    int offset = 0;
-    List<InlineSpan> textSpans = [];
-    for (final textInsert in textInserts) {
-      TextStyle textStyle = textStyleConfiguration.text.copyWith(
-        height: textStyleConfiguration.lineHeight,
-      );
-      final attributes = textInsert.attributes;
-      if (attributes != null) {
-        if (attributes.bold == true) {
-          textStyle = textStyle.combine(textStyleConfiguration.bold);
-        }
-        if (attributes.italic == true) {
-          textStyle = textStyle.combine(textStyleConfiguration.italic);
-        }
-        if (attributes.underline == true) {
-          textStyle = textStyle.combine(textStyleConfiguration.underline);
-        }
-        if (attributes.strikethrough == true) {
-          textStyle = textStyle.combine(textStyleConfiguration.strikethrough);
-        }
-        if (attributes.href != null) {
-          textStyle = textStyle.combine(textStyleConfiguration.href);
-        }
-        if (attributes.code == true) {
-          textStyle = textStyle.combine(textStyleConfiguration.code);
-        }
-        if (attributes.backgroundColor != null) {
-          textStyle = textStyle.combine(
-            TextStyle(backgroundColor: attributes.backgroundColor),
-          );
-        }
-        if (attributes.findBackgroundColor != null) {
-          textStyle = textStyle.combine(
-            TextStyle(backgroundColor: attributes.findBackgroundColor),
-          );
-        }
-        if (attributes.color != null) {
-          textStyle = textStyle.combine(
-            TextStyle(color: attributes.color),
-          );
-        }
-        if (attributes.fontFamily != null) {
-          textStyle = textStyle.combine(
-            TextStyle(fontFamily: attributes.fontFamily),
-          );
-        }
-        if (attributes.fontSize != null) {
-          textStyle = textStyle.combine(
-            TextStyle(fontSize: attributes.fontSize),
-          );
-        }
-        if (attributes.autoComplete == true) {
-          textStyle = textStyle.combine(textStyleConfiguration.autoComplete);
-        }
-        if (attributes.transparent == true) {
-          textStyle = textStyle.combine(
-            const TextStyle(color: Colors.transparent),
-          );
-        }
-      }
-      final textSpan = TextSpan(
-        text: textInsert.text,
-        style: textStyle,
-      );
-      textSpans.add(
-        textSpanDecoratorForAttribute != null
-            ? textSpanDecoratorForAttribute!(
-                context,
-                widget.node,
-                offset,
-                textInsert,
-                textSpan,
-                widget.textSpanDecorator?.call(textSpan) ?? textSpan,
-              )
-            : textSpan,
-      );
-      offset += textInsert.length;
-    }
-    return TextSpan(
-      children: textSpans,
+    return TextSpanGenerator.getTextSpan(
+      context: context,
+      node: widget.node,
+      textInserts: textInserts,
+      textStyleConfiguration: textStyleConfiguration,
+      textSpanDecorator: widget.textSpanDecorator,
+      textSpanDecoratorForAttribute: textSpanDecoratorForAttribute,
     );
   }
 

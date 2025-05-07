@@ -66,35 +66,47 @@ class _AnimatedMarkdownPageState extends State<AnimatedMarkdownPage>
                   vsync: this,
                   duration: const Duration(milliseconds: 2000),
                 );
-                final fade = Tween<double>(
+                final progress = Tween<double>(
                   begin: 0,
                   end: 1,
                 ).animate(controller);
-                _animations[node.id] = (controller, fade);
+                _animations[node.id] = (controller, progress);
                 controller.forward();
               }
-              final (controller, fade) = _animations[node.id]!;
+              final (controller, progress) = _animations[node.id]!;
 
               return AnimatedBuilder(
-                animation: fade,
+                animation: progress,
                 builder: (context, childWidget) {
+                  if (progress.isCompleted) {
+                    // After animation, show text in black
+                    return ColorFiltered(
+                      colorFilter:
+                          const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                      child: childWidget,
+                    );
+                  }
+                  // Rainbow gradient sweep
                   return ShaderMask(
                     shaderCallback: (Rect bounds) {
                       return LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        stops: [fade.value, fade.value],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [progress.value, progress.value + 0.1],
                         colors: const [
-                          Colors.white,
-                          Colors.transparent,
+                          Colors.red,
+                          Colors.orange,
+                          Colors.yellow,
+                          Colors.green,
+                          Colors.blue,
+                          Colors.indigo,
+                          Colors.purple,
                         ],
+                        tileMode: TileMode.mirror,
                       ).createShader(bounds);
                     },
-                    blendMode: BlendMode.dstIn,
-                    child: Opacity(
-                      opacity: fade.value,
-                      child: childWidget,
-                    ),
+                    blendMode: BlendMode.srcIn,
+                    child: childWidget,
                   );
                 },
                 child: child,

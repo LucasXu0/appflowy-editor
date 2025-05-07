@@ -52,6 +52,7 @@ class ParagraphBlockComponentBuilder extends BlockComponentBuilder {
       configuration: configuration,
       showActions: showActions(node),
       showPlaceholder: showPlaceholder,
+      blockWrapper: blockComponentContext.wrapper,
       actionBuilder: (context, state) => actionBuilder(
         blockComponentContext,
         state,
@@ -75,6 +76,7 @@ class ParagraphBlockComponentWidget extends BlockComponentStatefulWidget {
     super.actionBuilder,
     super.actionTrailingBuilder,
     super.configuration = const BlockComponentConfiguration(),
+    super.blockWrapper,
     this.showPlaceholder,
   });
 
@@ -214,6 +216,10 @@ class _ParagraphBlockComponentWidgetState
         actionTrailingBuilder: widget.actionTrailingBuilder,
         child: child,
       );
+    }
+
+    if (widget.blockWrapper != null) {
+      child = widget.blockWrapper!(context, node: node, child: child);
     }
 
     return child;

@@ -27,7 +27,7 @@ class PageBlockComponentBuilder extends BlockComponentBuilder {
       node: blockComponentContext.node,
       header: blockComponentContext.header,
       footer: blockComponentContext.footer,
-      wrapper: blockComponentContext.wrapper,
+      blockWrapper: blockComponentContext.wrapper,
     );
   }
 }
@@ -42,12 +42,13 @@ class PageBlockComponent extends BlockComponentStatelessWidget {
     super.configuration = const BlockComponentConfiguration(),
     this.header,
     this.footer,
-    this.wrapper,
+    this.blockWrapper,
   });
 
   final Widget? header;
   final Widget? footer;
-  final BlockComponentWrapper? wrapper;
+  @override
+  final BlockComponentWrapper? blockWrapper;
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +69,16 @@ class PageBlockComponent extends BlockComponentStatelessWidget {
                 if (header != null) header!,
                 ...items.map(
                   (e) {
-                    Widget child = editorState.renderer.build(context, e);
-                    if (wrapper != null) {
-                      child = wrapper!(context, node: e, child: child);
+                    Widget child = editorState.renderer.build(
+                      context,
+                      e,
+                      wrapper: blockWrapper,
+                    );
+
+                    if (blockWrapper != null) {
+                      child = blockWrapper!(context, node: e, child: child);
                     }
+
                     return Container(
                       constraints: BoxConstraints(
                         maxWidth:
@@ -115,9 +122,11 @@ class PageBlockComponent extends BlockComponentStatelessWidget {
           Widget child = editorState.renderer.build(
             context,
             node,
+            wrapper: blockWrapper,
           );
-          if (wrapper != null) {
-            child = wrapper!(context, node: node, child: child);
+
+          if (blockWrapper != null) {
+            child = blockWrapper!(context, node: node, child: child);
           }
 
           return Center(
