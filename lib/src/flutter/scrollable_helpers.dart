@@ -147,7 +147,9 @@ class EdgeDraggingAutoScroller {
     this.scrollable, {
     this.onScrollViewScrolled,
     required this.velocityScalar,
-  });
+    double minimumAutoScrollDelta = 1.0,
+  })  : assert(minimumAutoScrollDelta >= 0),
+        _minimumAutoScrollDelta = minimumAutoScrollDelta;
 
   /// The [Scrollable] this auto scroller is scrolling.
   final ScrollableState scrollable;
@@ -166,6 +168,13 @@ class EdgeDraggingAutoScroller {
   /// auto-scroll velocity = (distance of overscroll) * velocityScalar.
   /// {@endtemplate}
   final double velocityScalar;
+
+  /// The least amount of scroll delta applied per auto scroll tick.
+  ///
+  /// When the calculated scroll distance is smaller than this value (but still
+  /// non-zero), the auto scroller will nudge by this minimum to keep the view
+  /// moving rather than treat it as too small to scroll.
+  final double _minimumAutoScrollDelta;
 
   late Rect _dragTargetRelatedToScrollOrigin;
 
@@ -197,7 +206,7 @@ class EdgeDraggingAutoScroller {
   ///
   /// If the scrollable is already scrolling, calling this method updates the
   /// previous dragTarget to the new value and continues scrolling if necessary.
-  void startAutoScrollIfNecessary(Rect dragTarget) {
+  void startAutoScrollIfNecessary(Rect dragTarget, {Duration? duration}) {
     final Offset deltaToOrigin = scrollable.deltaToScrollOrigin;
     _dragTargetRelatedToScrollOrigin =
         dragTarget.translate(deltaToOrigin.dx, deltaToOrigin.dy);
@@ -206,7 +215,7 @@ class EdgeDraggingAutoScroller {
       return;
     }
     assert(!_scrolling);
-    _scroll();
+    _scroll(duration: duration);
   }
 
   /// Stop any ongoing auto scrolling.
@@ -214,7 +223,7 @@ class EdgeDraggingAutoScroller {
     _scrolling = false;
   }
 
-  Future<void> _scroll() async {
+  Future<void> _scroll({Duration? duration}) async {
     try {
       final RenderBox scrollRenderBox =
           scrollable.context.findRenderObject()! as RenderBox;
@@ -305,16 +314,37 @@ class EdgeDraggingAutoScroller {
           }
       }
 
-      if (newOffset == null ||
-          (newOffset - scrollable.position.pixels).abs() < 1.0) {
+      final double currentPixels = scrollable.position.pixels;
+      if (newOffset == null) {
         // Drag should not trigger scroll.
         _scrolling = false;
         return;
       }
-      final Duration duration =
-          Duration(milliseconds: (1000 / velocityScalar).round());
-      await scrollable.position
-          .animateTo(newOffset, duration: duration, curve: Curves.linear);
+      double delta = newOffset - currentPixels;
+      if (delta.abs() < _minimumAutoScrollDelta) {
+        if (delta.abs() <= precisionErrorTolerance) {
+          _scrolling = false;
+          return;
+        }
+        final double direction = delta.sign;
+        final double target =
+            (currentPixels + direction * _minimumAutoScrollDelta).clamp(
+          scrollable.position.minScrollExtent,
+          scrollable.position.maxScrollExtent,
+        );
+        newOffset = target.toDouble();
+        delta = newOffset - currentPixels;
+        if (delta.abs() <= precisionErrorTolerance) {
+          _scrolling = false;
+          return;
+        }
+      }
+      await scrollable.position.moveTo(
+        newOffset,
+        duration: duration,
+        curve: Curves.linear,
+        clamp: true,
+      );
       onScrollViewScrolled?.call();
       if (_scrolling) {
         await _scroll();
