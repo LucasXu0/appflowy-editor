@@ -148,8 +148,11 @@ class EdgeDraggingAutoScroller {
     this.onScrollViewScrolled,
     required this.velocityScalar,
     double minimumAutoScrollDelta = 1.0,
+    double maxAutoScrollDelta = 20.0,
   })  : assert(minimumAutoScrollDelta >= 0),
-        _minimumAutoScrollDelta = minimumAutoScrollDelta;
+        assert(maxAutoScrollDelta >= 0),
+        _minimumAutoScrollDelta = minimumAutoScrollDelta,
+        _maxAutoScrollDelta = maxAutoScrollDelta;
 
   /// The [Scrollable] this auto scroller is scrolling.
   final ScrollableState scrollable;
@@ -175,6 +178,7 @@ class EdgeDraggingAutoScroller {
   /// non-zero), the auto scroller will nudge by this minimum to keep the view
   /// moving rather than treat it as too small to scroll.
   final double _minimumAutoScrollDelta;
+  final double _maxAutoScrollDelta;
 
   late Rect _dragTargetRelatedToScrollOrigin;
 
@@ -251,7 +255,7 @@ class EdgeDraggingAutoScroller {
 
       _scrolling = true;
       double? newOffset;
-      const double overDragMax = 20.0;
+      final double overDragMax = _maxAutoScrollDelta;
 
       final Offset deltaToOrigin = scrollable.deltaToScrollOrigin;
       final Offset viewportOrigin =
@@ -347,7 +351,7 @@ class EdgeDraggingAutoScroller {
       );
       onScrollViewScrolled?.call();
       if (_scrolling) {
-        await _scroll();
+        await _scroll(duration: duration);
       }
     } catch (e) {
       debugPrint(e.toString());

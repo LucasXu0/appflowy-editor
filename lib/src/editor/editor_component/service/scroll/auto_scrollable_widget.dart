@@ -50,11 +50,20 @@ class _AutoScrollableWidgetState extends State<AutoScrollableWidget> {
   }
 
   void _initAutoScroller() {
+    final bool isDesktopOrWeb = PlatformExtension.isDesktopOrWeb;
     _autoScroller = AutoScroller(
       _scrollableState,
-      velocityScalar: PlatformExtension.isDesktopOrWeb ? 25 : 100,
+      velocityScalar: isDesktopOrWeb ? 32 : 18,
+      minAutoScrollDelta: isDesktopOrWeb ? 0.5 : 0.5,
+      maxAutoScrollDelta: isDesktopOrWeb ? 22 : 20,
       onScrollViewScrolled: () {
-        // _autoScroller.continueToAutoScroll();
+        if (!isDesktopOrWeb) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              _autoScroller.continueToAutoScroll();
+            }
+          });
+        }
       },
     );
   }

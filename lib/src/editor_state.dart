@@ -631,11 +631,25 @@ class EditorState {
   ) {
     if (this.scrollableState != scrollableState) {
       autoScroller?.stopAutoScroll();
-      autoScroller = AutoScroller(
+      final bool isDesktopOrWeb = PlatformExtension.isDesktopOrWeb;
+      late AutoScroller scroller;
+      scroller = AutoScroller(
         scrollableState,
-        velocityScalar: PlatformExtension.isDesktopOrWeb ? 50 : 100,
-        onScrollViewScrolled: _notifyScrollViewScrolledListeners,
+        velocityScalar: isDesktopOrWeb ? 32 : 18,
+        minAutoScrollDelta: isDesktopOrWeb ? 0.5 : 0.5,
+        maxAutoScrollDelta: isDesktopOrWeb ? 22 : 20,
+        onScrollViewScrolled: () {
+          _notifyScrollViewScrolledListeners();
+          if (!isDesktopOrWeb) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (autoScroller == scroller) {
+                scroller.continueToAutoScroll();
+              }
+            });
+          }
+        },
       );
+      autoScroller = scroller;
       this.scrollableState = scrollableState;
     }
   }
